@@ -172,13 +172,13 @@ body {
 }
 
 .empty-after-before-fake {
-    width: 75%;
+    width: 75vw;
     max-width: 60rem;
 }
 
 .empty-after-before {
     position: relative;
-    width: 75%;
+    width: 75vw;
     max-width: 60rem;
     height: fit-content;
 }
@@ -637,3 +637,4 @@ body {
             0 0 5rem 0 rgba(0, 0, 0, 0.5) inset;
     }
 }
+
