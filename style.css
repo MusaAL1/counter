@@ -1,11 +1,11 @@
 html {
-    font-size: 62.5%;
     font-size: 10px;
 }
 
 :root {
     --display--before-after: none;
     --backgroundcolor: rgb(24, 32, 40);
+    --textshadowcolor: #1976c290;
 }
 
 
@@ -37,6 +37,48 @@ html {
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'Tajawal';
+    src: url('./assets/fonts/Tajawal/Tajawal-Regular.ttf');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Tajawal';
+    src: url('./assets/fonts/Tajawal/Tajawal-Bold.ttf');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Tajawal';
+    src: url('./assets/fonts/Tajawal/Tajawal-Black.ttf');
+    font-weight: 900;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cairo';
+    src: url('./assets/fonts/Cairo/static/Cairo-Regular.ttf');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cairo';
+    src: url('./assets/fonts/Cairo/static/Cairo-Bold.ttf');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Cairo';
+    src: url('./assets/fonts/Cairo/static/Cairo-Black.ttf');
+    font-weight: 900;
+    font-style: normal;
+}
+
 * {
     margin: 0;
 }
@@ -65,24 +107,22 @@ body {
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    font-family: 'Lateef', serif;
-    font-weight: 700;
     font-style: normal;
+    display: none;
 }
 
 .intro input {
     z-index: 1;
-    font-family: 'Lateef', serif;
+    font-family: 'Tajawal', 'Cairo', sans-serif;
     font-weight: 400;
     font-style: normal;
 }
 
 .intro button {
-    font-family: 'Amiri', serif;
+    font-family: 'Cairo', 'Tajawal', sans-serif;
     font-weight: 700;
     font-style: normal;
     z-index: 1;
-    padding: 0.8rem 0 0 0;
 }
 
 .background-intro {
@@ -108,7 +148,6 @@ body {
     animation: input 1s linear alternate infinite;
 }
 
-
 #clickinput:hover {
     outline: 3px solid goldenrod;
 }
@@ -119,9 +158,9 @@ body {
 
 .intro input:not(#clickinput) {
     position: relative;
-    width: 58rem;
+    width: 100%;
     height: 10rem;
-    font-size: 6rem;
+    font-size: 5rem;
     border-radius: 10px;
     border: none;
     box-shadow: 0 0 1.5rem 0 rgba(0, 170, 255, 0.507) inset, 0 0 0 0.2rem whitesmoke;
@@ -133,12 +172,14 @@ body {
 }
 
 .empty-after-before-fake {
-    width: 60rem;
+    width: 75%;
+    max-width: 60rem;
 }
 
 .empty-after-before {
     position: relative;
-    width: fit-content;
+    width: 75%;
+    max-width: 60rem;
     height: fit-content;
 }
 
@@ -151,12 +192,14 @@ body {
     border-bottom-color: white;
     right: 10%;
     display: var(--display--before-after);
+    filter: blur(0.9px);
     top: 90%;
+    z-index: 1;
 }
 
 .invalid::after {
-    font-family: 'Amiri', serif;
-    font-weight: 400;
+    font-family: 'Cairo', 'Tajawal', serif;
+    font-weight: 700;
     content: var(--after-content);
     position: absolute;
     right: 7%;
@@ -169,10 +212,10 @@ body {
     background-color: rgb(255, 255, 255);
     border-radius: 7px;
     outline: 0.3rem solid red;
-    box-shadow: 0 0 1rem red inset;
+    box-shadow: 0 0 0.3rem 0.38rem white, 0 0 1rem red inset;
+    z-index: 1;
     display: var(--display--before-after);
 }
-
 
 .intro input:not(#clickinput):hover {
     outline: 3px solid #daa520 !important;
@@ -187,11 +230,14 @@ body {
     color: rgb(1, 12, 27);
 }
 
+/* ---------- Part Two ---------- */
 
 :where(.container) {
     position: relative;
-    width: 40rem;
-    height: 40rem;
+    width: 80vw;
+    max-width: 40rem;
+    min-width: 20rem;
+    aspect-ratio: 1 / 1;
     border-radius: 50%;
     background-color: rgba(14, 58, 102, 0.5);
     overflow: hidden;
@@ -199,14 +245,16 @@ body {
     justify-content: center;
     align-items: center;
     animation: button 3s ease-in-out infinite;
+    transition-duration: 0.3s;
+    transition-property: width, height;
+    transition-timing-function: ease-in-out;
 }
 
 @keyframes button {
-
     0%,
     100% {
         box-shadow:
-            0 0 0.7rem 0.2rem whitesmoke,
+            0 0 0.7rem 0.2rem rgba(2, 105, 174, 0.5),
             0 0 3rem 0.4rem black inset,
             0 0 4rem 0 rgba(0, 0, 0, 0.5) inset;
     }
@@ -226,28 +274,34 @@ body {
 .container :where(#adadprog) {
     position: absolute;
     top: 15%;
-    font-size: 6rem;
-    height: 8rem;
-    font-weight: bold;
-    width: 21.5rem;
+    font-size: 5rem;
+    max-height: 8rem;
+    height: 20%;
+    font-family: 'Cairo', 'Tajawal', sans-serif;
+    font-weight: 700;
+    max-width: 21.5rem;
+    width: 55.5%;
     text-align: center;
-    color: aliceblue;
     border-radius: 2rem;
+    border: none;
     background-color: rgb(2, 20, 36);
     box-shadow: 0 0 3.3rem 0 rgba(0, 170, 255, 0.507) inset, 0 0 0 0.2rem whitesmoke;
-    border: none;
+    color: #dcffe9;
     animation: input 1s linear alternate infinite;
 }
 
 .container :where(#adadgoal) {
     position: absolute;
     top: 65%;
-    font-size: 6rem;
-    height: 8rem;
-    font-weight: bold;
-    width: 21.5rem;
+    font-size: 4.5rem;
+    max-height: 8rem;
+    height: 20%;
+    font-weight: 700;
+    font-family: 'Cairo', 'Tajawal', sans-serif;
+    max-width: 21.5rem;
+    width: 55.5%;
     text-align: center;
-    color: aliceblue;
+    color: #dcffe9;
     border-radius: 20px;
     background-color: rgb(2, 20, 36);
     box-shadow: 0 0 3.3rem 0 rgba(0, 170, 255, 0.507) inset, 0 0 0 0.2rem whitesmoke;
@@ -312,17 +366,6 @@ body {
     }
 }
 
-
-.container #click {
-    position: absolute;
-    cursor: pointer;
-    border-radius: 50%;
-    width: 100%;
-    height: 100%;
-    background-color: transparent;
-    border: none;
-}
-
 .read-wrapper {
     width: 99%;
     max-width: 100%;
@@ -336,7 +379,6 @@ body {
     text-align: center;
 }
 
-/* Chrome / Safari / Edge */
 .read-wrapper::-webkit-scrollbar {
     height: 10px;
 }
@@ -356,9 +398,13 @@ body {
 .read-text {
     display: inline-block;
     font-size: 5rem;
-    font-weight: bold;
+    font-weight: 700;
+    font-family: 'Lateef', 'Amiri', sans-serif;
     color: aliceblue;
     background: transparent;
+    -webkit-font-smoothing: antialiased;
+    text-shadow: 0 0 4px var(--textshadowcolor, black);
+    transition: outline 0.3s ease-in-out;
     padding: 0 1rem;
     border-radius: 6px;
     outline: none;
@@ -421,23 +467,14 @@ body {
     width: 100%;
     height: 100%;
     cursor: pointer;
-    outline: none;
-}
-
-.background-click:hover {
-    border: 1rem double goldenrod;
-}
-
-.background-click:focus {
-    border: 1rem double rgba(218, 165, 32, 0.5);
 }
 
 .background-click:active {
-    border: none;
-    box-shadow: 0 0 0 1.5rem rgba(255, 255, 255, 0.5) inset;
+    background: radial-gradient(circle at center, rgba(129, 129, 129, 0.1) 0%, transparent 50%);
 }
 
 .container #adadgoaldone {
+    display: none !important;
     position: absolute;
     width: fit-content;
     height: fit-content;
@@ -455,8 +492,8 @@ body {
     width: 7rem;
     height: 7rem;
     font-size: 6.5rem;
-    font-weight: bold;
-    font-family: serif;
+    font-family: 'Lateef', serif;
+    font-weight: 900;
     text-align: center;
     transform: rotate(115deg);
     border-radius: 50%;
@@ -558,12 +595,15 @@ body {
 }
 
 .adadgoal {
-    background-color: #0e4907;
+    background: radial-gradient(circle at center, #0f2d20 0%, #061510 100%) !important;
+    background-color:  #0f2d20;
+    border: 0.15rem solid #19c27f;
+    box-shadow: none !important;
     animation: done 3s infinite alternate ease-in-out;
 }
 
 .adadgoalcon {
-    background-color: #198f0b;
+    background-color: #0f2d20;
     animation: donecon 3s infinite alternate ease-in-out;
 }
 
@@ -571,29 +611,29 @@ body {
 
     0%,
     100% {
-        box-shadow: 0 0 1.5rem 0 #37d925 inset, 0 0 0 0.2rem whitesmoke;
+        box-shadow: 
+            0 0 1.5rem 0 #03462b50 inset;
     }
 
     50% {
-        box-shadow: 0 0 4rem 0 #37d925 inset, 0 0 0 0.2rem whitesmoke;
+        box-shadow: 
+            0 0 4rem 0 #03452b50 inset;
     }
 }
 
 @keyframes donecon {
-
     0%,
     100% {
         box-shadow:
-            0 0 0.7rem 0.2rem whitesmoke,
-            0 0 3rem 0.4rem black inset,
-            0 0 4rem 0 rgba(0, 0, 0, 0.5) inset;
+            0 0 0.7rem 0 #19c27f70,
+            0 0 2rem black inset,
+            0 0 2rem 0 rgba(0, 0, 0, 0.3) inset;
     }
 
     50% {
         box-shadow:
-            0 0 3rem 0.3rem rgb(5, 174, 2),
-            0 0 7rem 0.6rem black inset,
-            0 0 7rem 0 rgba(0, 0, 0, 0.5) inset;
+            0 0 3rem 0.3rem #19c27f70,
+            0 0 5rem 0.4rem black inset,
+            0 0 5rem 0 rgba(0, 0, 0, 0.5) inset;
     }
-
 }
