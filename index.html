@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <link rel=" icon" href="./assets/imags/beads.png" type="image/png">
+    <link rel="apple-touch-icon" href="./assets/imags/beads.png">
+    <title>مِسبحةْ</title>
+</head>
+
+<body id="body">
+    <div id="intro" class="intro">
+        <div id="invalid-1" class="empty-after-before invalid">
+            <input type="text" required id="introinput1" placeholder="أدخل عنوان هدف التكرار!" autofocus />
+        </div>
+        <div class="empty-after-before-fake"></div>
+        <div id="invalid-2" class="empty-after-before invalid">
+            <input type="text" required id="introinput2" maxlength="5" placeholder="أدخل عدد تكرار الهدف!" />
+        </div>
+        <div class="empty-after-before-fake"></div>
+        <button type="submit" id="clickinput">أبدأ</button>
+        <div id="background-intro" class="background-intro"></div>
+    </div>
+
+    <div class="container" id="container">
+        <input type="button" tabindex="0" id="click">
+        <input type="text" id="adadprog" value="البداية!" disabled>
+        <input type="text" id="adadgoal" value="الهدف!" disabled>
+        <div class="read-wrapper" aria-hidden="true">
+            <div id="read" class="read-text" contenteditable="true"></div>
+        </div>
+        <div class="read-text-in-out"></div>
+        <div id="adadgoaldone">✅</div>
+    </div>
+    <div type="button" id="reset" tabindex="0">&circlearrowright;</div>
+    <input type="button" id="background-2" class="background-click" tabindex="0">
+    <script>
+        var input1 = "";
+        var input2 = 100;
+        input2 = 0;
+        var click = document.getElementById('click');
+        var num = document.getElementById('adadprog');
+        num = 0;
+        var adadgoal = document.getElementById('adadgoal');
+        let reset = document.getElementById('reset');
+
+        let introinput_1 = document.getElementById('introinput1');
+        let introinput_2 = document.getElementById('introinput2');
+        let clickinput = document.getElementById('clickinput');
+        let intro = document.getElementById('intro');
+        let background_intro = document.getElementById('background-intro');
+        let background_2 = document.getElementById('background-2');
+
+        background_intro.onclick = function () {
+            document.getElementById('read').value = input1;
+            num.value = input2;
+            adadgoal.value = input2;
+            intro.style.display = "none";
+        }
+
+        function normalizeEasternArabixDigits(s) {
+            const eastern = '٠١٢٣٤٥٦٧٨٩';
+            const western = '0123456789';
+            let out = '';
+            for (let ch of s) {
+                const idx = eastern.indexOf(ch);
+                out += (idx !== -1) ? western[idx] : ch;
+            }
+            return out;
+        }
+
+        clickinput.onclick = function () {
+            introinput_1_s = String(introinput_1.value).trim();
+            introinput_2_s = String(introinput_2.value).trim();
+
+            let norm_1 = normalizeEasternArabixDigits(introinput_1_s);
+            let norm_2 = normalizeEasternArabixDigits(introinput_2_s);
+
+            const hasDigit_1 = /[0-9]/.test(norm_1);
+            const hasAlpha_1 = /[A-Za-z\u0600-\u06FF]/.test(norm_1);
+            const hasignore_1 = /[,.\/?\\{}\[\]:"'<>|!@#$%^&*()_\-+=~`]/.test(norm_1);
+
+            const hasDigit_2 = /[0-9]/.test(norm_2);
+            const hasAlpha_2 = /[A-Za-z\u0600-\u06FF]/.test(norm_2);
+            const hasignore_2 = /[,.\/?\\{}\[\]:"'<>|!@#$%^&*()_\-+=~`]/.test(norm_2);
+
+            if (introinput_1_s === '' && introinput_2_s === '') {
+                introinput_1.style.outline = '3px solid red';
+                introinput_2.style.outline = '3px solid red';
+
+                document.getElementById('invalid-1').style.setProperty('--display--before-after', 'block');
+                document.getElementById('invalid-1').style.setProperty('--after-content', '"الحقل فارغ!؛ الرجاء ملؤه."');
+
+                document.getElementById('invalid-2').style.setProperty('--display--before-after', 'block');
+                document.getElementById('invalid-2').style.setProperty('--after-content', '"الحقل فارغ!؛ الرجاء ملؤه."');
+
+                return;
+            }
+
+            else if ((!hasAlpha_1 && hasDigit_1 && !hasDigit_2 && hasAlpha_2) || (hasignore_1 & hasignore_2)) {
+                introinput_1.style.outline = '3px solid red';
+                introinput_2.style.outline = '3px solid red';
+
+                document.getElementById('invalid-1').style.setProperty('--display--before-after', 'block');
+                document.getElementById('invalid-1').style.setProperty('--after-content', '"الرجاء إدخال الصيغة الصحيحة."');
+
+                document.getElementById('invalid-2').style.setProperty('--display--before-after', 'block');
+                document.getElementById('invalid-2').style.setProperty('--after-content', '"الرجاء إدخال الصيغة الصحيحة."');
+
+                return;
+            }
+
+            if (introinput_1_s === '') {
+                introinput_1.style.outline = '3px solid red';
+                document.getElementById('invalid-1').style.setProperty('--display--before-after', 'block');
+                document.getElementById('invalid-1').style.setProperty('--after-content', '"الحقل فارغ!؛ الرجاء ملؤه."');
+            }
+
+            else if ((!hasAlpha_1 && hasDigit_1) || hasDigit_1 || hasignore_1) {
+                introinput_1.style.outline = '3px solid red';
+                document.getElementById('invalid-1').style.setProperty('--display--before-after', 'block');
+                document.getElementById('invalid-1').style.setProperty('--after-content', '"الرجاء إدخال الصيغة الصحيحة."');
+            }
+
+
+
+            if (introinput_2_s === '') {
+                introinput_2.style.outline = '3px solid red';
+                document.getElementById('invalid-2').style.setProperty('--display--before-after', 'block');
+                document.getElementById('invalid-2').style.setProperty('--after-content', '"الحقل فارغ!؛ الرجاء ملؤه."');
+            }
+
+            else if ((!hasDigit_2 && hasAlpha_2) || hasAlpha_2 || hasignore_2) {
+                introinput_2.style.outline = '3px solid red';
+                document.getElementById('invalid-2').style.setProperty('--display--before-after', 'block');
+                document.getElementById('invalid-2').style.setProperty('--after-content', '"الرجاء إدخال الصيغة الصحيحة."');
+            }
+
+
+            if (hasAlpha_1 && !hasDigit_1 && !hasignore_1) {
+                document.getElementById('invalid-1').style.setProperty('--display--before-after', 'none');
+                introinput_1.style.outline = 'none';
+            }
+
+
+            if (hasDigit_2 && !hasAlpha_2 && !hasignore_2) {
+                document.getElementById('invalid-2').style.setProperty('--display--before-after', 'none');
+                introinput_2.style.outline = 'none';
+            }
+
+            if (hasAlpha_1 && !hasDigit_1 && !hasignore_1 && hasDigit_2 && !hasAlpha_2 && !hasignore_2) {
+                document.getElementById('invalid-1').style.setProperty('--display--before-after', 'none');
+                introinput_1.style.outline = 'none';
+
+                document.getElementById('invalid-2').style.setProperty('--display--before-after', 'none');
+                introinput_2.style.outline = 'none';
+
+                document.getElementById('read').textContent = introinput_1.value;
+
+                input2 = introinput_2.value;
+                num.value = introinput_2.value;
+                adadgoal.value = introinput_2.value;
+
+                intro.style.display = "none";
+                return;
+            }
+            return;
+        };
+
+        background_2.onclick = function () {
+            if ((num + 1) < input2) {
+                num++;
+                document.getElementById("adadprog").value = num;
+            }
+
+            else {
+                document.getElementById("adadprog").value = "تم!";
+                document.getElementById("adadprog").style.fontSize = '4.5rem';
+                document.getElementById('adadprog').classList.add('adadgoal');
+
+                document.getElementById("body").style.backgroundColor = 'rgb(24, 40, 32)';
+
+                document.getElementById('reset').style.setProperty('--backgroundcolor', 'rgb(24, 40, 32)');
+
+                adadgoal.classList.add('adadgoal');
+
+                document.getElementById('container').classList.add('adadgoalcon');
+
+                document.getElementById("adadgoaldone").style.display = 'block';
+            }
+        };
+
+        let reset_test = 0;
+        let resetTimer;
+
+        reset.onclick = function () {
+            reset_test++;
+            document.getElementById('reset').classList.add('reset-active');
+
+            clearTimeout(resetTimer);
+
+            if (reset_test === 2) {
+                num = 0;
+                document.getElementById("adadprog").value = "البداية!";
+                document.getElementById("adadprog").style.fontSize = '6rem';
+                document.getElementById("adadprog").classList.remove('adadgoal');
+
+                adadgoal.classList.remove('adadgoal');
+
+                document.getElementById("body").style.backgroundColor = 'rgb(24, 32, 40)';
+
+                document.getElementById('container').classList.remove('adadgoalcon');
+
+                document.getElementById("adadgoaldone").style.display = 'none';
+
+                document.getElementById('reset').classList.add('reset-active-2');
+
+                resetTimer = setTimeout(() => {
+                    document.getElementById('reset').classList.remove('reset-active');
+                    document.getElementById('reset').classList.remove('reset-active-2');
+                }, 100)
+
+                document.getElementById('reset').style.setProperty('--backgroundcolor', 'rgb(24, 32, 40)');
+
+                reset_test = 0;
+            }
+
+            else {
+                resetTimer = setTimeout(() => {
+                    reset_test = 0;
+                    document.getElementById('reset').classList.remove('reset-active');
+                }, 1000)
+            }
+        };
+
+    </script>
+</body>
+
+</html>
