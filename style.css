@@ -1,11 +1,15 @@
 html {
-    font-size: 10px;
+    font-size: 6px;
+    scroll-behavior: smooth;
 }
 
 :root {
-    --display--before-after: none;
+    --after-content: ;
+    --opacity--before-after: 0;
     --backgroundcolor: rgb(24, 32, 40);
     --textshadowcolor: #1976c290;
+    --read-text-in-out-before: 0;
+    --read-text-in-out-after: 0;
 }
 
 
@@ -81,6 +85,7 @@ html {
 
 * {
     margin: 0;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -94,6 +99,8 @@ body {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+        transition: all 0.3s ease;
+
 }
 
 .intro {
@@ -108,6 +115,7 @@ body {
     justify-content: space-evenly;
     align-items: center;
     font-style: normal;
+    /* display: none; */
 }
 
 .intro input {
@@ -115,6 +123,7 @@ body {
     font-family: 'Tajawal', 'Cairo', sans-serif;
     font-weight: 400;
     font-style: normal;
+    transition: all 0.3s ease;
 }
 
 .intro button {
@@ -122,6 +131,7 @@ body {
     font-weight: 700;
     font-style: normal;
     z-index: 1;
+    transition: all 0.3s ease;
 }
 
 .background-intro {
@@ -170,11 +180,6 @@ body {
     animation: input 1s linear alternate infinite;
 }
 
-.empty-after-before-fake {
-    width: 75vw;
-    max-width: 60rem;
-}
-
 .empty-after-before {
     position: relative;
     width: 75vw;
@@ -190,10 +195,11 @@ body {
     height: 0;
     border-bottom-color: white;
     right: 10%;
-    display: var(--display--before-after);
+    opacity: var(--opacity--before-after, 0);
     filter: blur(0.9px);
     top: 90%;
     z-index: 1;
+    transition: all 0.3s ease;
 }
 
 .invalid::after {
@@ -213,7 +219,8 @@ body {
     outline: 0.3rem solid red;
     box-shadow: 0 0 0.3rem 0.38rem white, 0 0 1rem red inset;
     z-index: 1;
-    display: var(--display--before-after);
+    opacity: var(--opacity--before-after, 0);
+    transition: all 0.3s ease;
 }
 
 .intro input:not(#clickinput):hover {
@@ -247,9 +254,11 @@ body {
     transition-duration: 0.3s;
     transition-property: width, height;
     transition-timing-function: ease-in-out;
+
 }
 
 @keyframes button {
+
     0%,
     100% {
         box-shadow:
@@ -286,6 +295,7 @@ body {
     background-color: rgb(2, 20, 36);
     box-shadow: 0 0 3.3rem 0 rgba(0, 170, 255, 0.507) inset, 0 0 0 0.2rem whitesmoke;
     color: #dcffe9;
+
     animation: input 1s linear alternate infinite;
 }
 
@@ -396,7 +406,9 @@ body {
 
 .read-text {
     display: inline-block;
-    font-size: 5rem;
+    white-space: nowrap;
+    overflow-y: hidden;
+    font-size: 6.5rem;
     font-weight: 700;
     font-family: 'Lateef', 'Amiri', sans-serif;
     color: aliceblue;
@@ -431,33 +443,31 @@ body {
     outline: none;
 }
 
-.container .read-text-in-out::before {
-    content: "";
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    left: 0;
-    height: 100%;
-    width: 1.8rem;
-    z-index: 2;
-    pointer-events: none;
-    background: linear-gradient(to right, rgba(0, 0, 0.9), transparent);
-    opacity: 0.9;
-}
-
+.container .read-text-in-out::before,
 .container .read-text-in-out::after {
     content: "";
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    right: 0;
     height: 100%;
-    width: 1.8rem;
+    width: 3rem;
     z-index: 2;
     pointer-events: none;
-    background: linear-gradient(to left, rgba(0, 0, 0.9), transparent);
-    opacity: 0.9;
+    transition: opacity 0.3s ease;
 }
+
+.container .read-text-in-out::before {
+    left: 0;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.95), transparent);
+    opacity: var(--read-text-in-out-before, 0);
+}
+
+.container .read-text-in-out::after {
+    right: 0;
+    background: linear-gradient(to left, rgba(0, 0, 0, 0.95), transparent);
+    opacity: var(--read-text-in-out-after, 0);
+}
+
 
 .background-click {
     position: absolute;
@@ -484,17 +494,17 @@ body {
     display: none;
 }
 
+#reset img {
+    width: 55%;
+}
+
 #reset {
     position: absolute;
     top: 15%;
-    right: 5%;
+    right: 9%;
     width: 7rem;
     height: 7rem;
-    font-size: 6.5rem;
-    font-family: 'Lateef', serif;
-    font-weight: 900;
     text-align: center;
-    transform: rotate(115deg);
     border-radius: 50%;
     box-shadow: 0 0 1.5rem 0 rgba(253, 19, 19, 0.684) inset, 0 0 0 0.1rem whitesmoke;
     background-color: rgb(36, 2, 2);
@@ -503,8 +513,10 @@ body {
     cursor: pointer;
     z-index: 10;
     animation: reset 1.5s linear alternate infinite;
-    ;
-
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.5s ease;
 }
 
 #reset:hover {
@@ -516,15 +528,16 @@ body {
 }
 
 .reset-active {
+    transform: scale(1.1);
     animation: reset-active 1.5s ease-in-out alternate infinite !important;
 }
 
 .reset-active-2 {
+    transform: scale(1.5);
     animation: reset-active-2 1.5s ease-in-out alternate infinite !important;
 }
 
 @keyframes reset {
-
     0%,
     100% {
         box-shadow:
@@ -595,7 +608,7 @@ body {
 
 .adadgoal {
     background: radial-gradient(circle at center, #0f2d20 0%, #061510 100%) !important;
-    background-color:  #0f2d20;
+    background-color: #0f2d20;
     border: 0.15rem solid #19c27f;
     box-shadow: none !important;
     animation: done 3s infinite alternate ease-in-out;
@@ -610,17 +623,18 @@ body {
 
     0%,
     100% {
-        box-shadow: 
+        box-shadow:
             0 0 1.5rem 0 #03462b50 inset;
     }
 
     50% {
-        box-shadow: 
+        box-shadow:
             0 0 4rem 0 #03452b50 inset;
     }
 }
 
 @keyframes donecon {
+
     0%,
     100% {
         box-shadow:
@@ -636,5 +650,3 @@ body {
             0 0 5rem 0 rgba(0, 0, 0, 0.5) inset;
     }
 }
-
-
