@@ -15,11 +15,9 @@
         <div id="invalid-1" class="empty-after-before invalid">
             <input type="text" required id="introinput1" placeholder="أدخل عنوان الهدف!" autofocus />
         </div>
-        <div class="empty-after-before-fake"></div>
         <div id="invalid-2" class="empty-after-before invalid">
             <input type="text" required id="introinput2" maxlength="5" placeholder="أدخل عدد التكرار!" />
         </div>
-        <div class="empty-after-before-fake"></div>
         <button type="submit" id="clickinput">أبدأ</button>
         <div id="background-intro" class="background-intro"></div>
     </div>
@@ -27,13 +25,13 @@
     <div class="container" id="container">
         <input type="text" id="adadprog" value="البداية!" disabled>
         <input type="text" id="adadgoal" value="الهدف!" disabled>
-        <div class="read-wrapper" aria-hidden="true">
+        <div class="read-wrapper" id="read-wrapper" aria-hidden="true">
             <div id="read" class="read-text" contenteditable="true"></div>
         </div>
-        <div class="read-text-in-out"></div>
+        <div class="read-text-in-out" id="read-text-in-out"></div>
         <div id="adadgoaldone">✅</div>
     </div>
-    <div id="reset" tabindex="0">&circlearrowright;</div>
+    <div id="reset" tabindex="0"><img src="./assets/imags/agin.png" alt="Reset"></div>
     <div id="background-2" class="background-click" tabindex="0"></div>
     <script>
         var input1 = "";
@@ -51,6 +49,9 @@
         let intro = document.getElementById('intro');
         let background_intro = document.getElementById('background-intro');
         let background_2 = document.getElementById('background-2');
+
+        const read_wrapper = document.getElementById('read-wrapper');
+        const read_text_in_out = document.getElementById('read-text-in-out');
 
         background_intro.onclick = function () {
             document.getElementById('read').value = input1;
@@ -89,10 +90,10 @@
                 introinput_1.style.outline = '3px solid red';
                 introinput_2.style.outline = '3px solid red';
 
-                document.getElementById('invalid-1').style.setProperty('--display--before-after', 'block');
+                document.getElementById('invalid-1').style.setProperty('--opacity--before-after', '1');
                 document.getElementById('invalid-1').style.setProperty('--after-content', '"الحقل فارغ!؛ الرجاء ملؤه."');
 
-                document.getElementById('invalid-2').style.setProperty('--display--before-after', 'block');
+                document.getElementById('invalid-2').style.setProperty('--opacity--before-after', '1');
                 document.getElementById('invalid-2').style.setProperty('--after-content', '"الحقل فارغ!؛ الرجاء ملؤه."');
 
                 return;
@@ -102,10 +103,10 @@
                 introinput_1.style.outline = '3px solid red';
                 introinput_2.style.outline = '3px solid red';
 
-                document.getElementById('invalid-1').style.setProperty('--display--before-after', 'block');
+                document.getElementById('invalid-1').style.setProperty('--opacity--before-after', '1');
                 document.getElementById('invalid-1').style.setProperty('--after-content', '"الرجاء إدخال الصيغة الصحيحة."');
 
-                document.getElementById('invalid-2').style.setProperty('--display--before-after', 'block');
+                document.getElementById('invalid-2').style.setProperty('--opacity--before-after', '1');
                 document.getElementById('invalid-2').style.setProperty('--after-content', '"الرجاء إدخال الصيغة الصحيحة."');
 
                 return;
@@ -113,13 +114,13 @@
 
             if (introinput_1_s === '') {
                 introinput_1.style.outline = '3px solid red';
-                document.getElementById('invalid-1').style.setProperty('--display--before-after', 'block');
+                document.getElementById('invalid-1').style.setProperty('--opacity--before-after', '1');
                 document.getElementById('invalid-1').style.setProperty('--after-content', '"الحقل فارغ!؛ الرجاء ملؤه."');
             }
 
             else if ((!hasAlpha_1 && hasDigit_1) || hasDigit_1 || hasignore_1) {
                 introinput_1.style.outline = '3px solid red';
-                document.getElementById('invalid-1').style.setProperty('--display--before-after', 'block');
+                document.getElementById('invalid-1').style.setProperty('--opacity--before-after', '1');
                 document.getElementById('invalid-1').style.setProperty('--after-content', '"الرجاء إدخال الصيغة الصحيحة."');
             }
 
@@ -127,33 +128,33 @@
 
             if (introinput_2_s === '') {
                 introinput_2.style.outline = '3px solid red';
-                document.getElementById('invalid-2').style.setProperty('--display--before-after', 'block');
+                document.getElementById('invalid-2').style.setProperty('--opacity--before-after', '1');
                 document.getElementById('invalid-2').style.setProperty('--after-content', '"الحقل فارغ!؛ الرجاء ملؤه."');
             }
 
             else if ((!hasDigit_2 && hasAlpha_2) || hasAlpha_2 || hasignore_2) {
                 introinput_2.style.outline = '3px solid red';
-                document.getElementById('invalid-2').style.setProperty('--display--before-after', 'block');
+                document.getElementById('invalid-2').style.setProperty('--opacity--before-after', '1');
                 document.getElementById('invalid-2').style.setProperty('--after-content', '"الرجاء إدخال الصيغة الصحيحة."');
             }
 
 
             if (hasAlpha_1 && !hasDigit_1 && !hasignore_1) {
-                document.getElementById('invalid-1').style.setProperty('--display--before-after', 'none');
+                document.getElementById('invalid-1').style.setProperty('--opacity--before-after', '0');
                 introinput_1.style.outline = 'none';
             }
 
 
             if (hasDigit_2 && !hasAlpha_2 && !hasignore_2) {
-                document.getElementById('invalid-2').style.setProperty('--display--before-after', 'none');
+                document.getElementById('invalid-2').style.setProperty('--opacity--before-after', '0');
                 introinput_2.style.outline = 'none';
             }
 
             if (hasAlpha_1 && !hasDigit_1 && !hasignore_1 && hasDigit_2 && !hasAlpha_2 && !hasignore_2) {
-                document.getElementById('invalid-1').style.setProperty('--display--before-after', 'none');
+                document.getElementById('invalid-1').style.setProperty('--opacity--before-after', '0');
                 introinput_1.style.outline = 'none';
 
-                document.getElementById('invalid-2').style.setProperty('--display--before-after', 'none');
+                document.getElementById('invalid-2').style.setProperty('--opacity--before-after', '0');
                 introinput_2.style.outline = 'none';
 
                 document.getElementById('read').textContent = introinput_1.value;
@@ -169,6 +170,8 @@
         };
 
         background_2.onclick = function () {
+            read_wrapper.scrollTo({ left: 0, behavior: 'smooth' });
+
             if ((num + 1) < input2) {
                 num++;
                 document.getElementById("adadprog").value = num;
@@ -182,7 +185,7 @@
                 document.getElementById("body").style.backgroundColor = '#0b1f16';
 
                 document.getElementById('reset').style.setProperty('--backgroundcolor', '#0b1f16');
-                
+
                 document.getElementById('read').style.setProperty('--textshadowcolor', '#19c27f90');
 
                 adadgoal.classList.add('adadgoal');
@@ -209,6 +212,8 @@
                 document.getElementById("adadprog").classList.remove('adadgoal');
 
                 adadgoal.classList.remove('adadgoal');
+
+                read_wrapper.scrollTo({ left: 0, behavior: 'smooth' });
 
                 document.getElementById("body").style.backgroundColor = 'rgb(24, 32, 40)';
 
@@ -238,8 +243,47 @@
             }
         };
 
+        const read = document.getElementById('read');
+        read.addEventListener('keydown', e => {
+            if (e.key === 'Enter') e.preventDefault();
+        });
+
+        function updateFade() {
+            const maxScroll = read_wrapper.scrollWidth - read_wrapper.clientWidth;
+            const scrollLeft = Math.abs(read_wrapper.scrollLeft);
+
+            if (scrollLeft <= 0) {
+                read_text_in_out.style.setProperty('--read-text-in-out-before', '1');
+                read_text_in_out.style.setProperty('--read-text-in-out-after', '0');
+            }
+
+            else if (scrollLeft >= maxScroll - 1) {
+                read_text_in_out.style.setProperty('--read-text-in-out-before', '0');
+                read_text_in_out.style.setProperty('--read-text-in-out-after', '1');
+            }
+
+            else {
+                read_text_in_out.style.setProperty('--read-text-in-out-before', '1');
+                read_text_in_out.style.setProperty('--read-text-in-out-after', '1');
+            }
+
+            if (read_wrapper.scrollWidth <= read_wrapper.clientWidth) {
+                read_text_in_out.style.setProperty('--read-text-in-out-before', '0');
+                read_text_in_out.style.setProperty('--read-text-in-out-after', '0');
+            }
+        }
+
+        read_wrapper.addEventListener('scroll', updateFade);
+        read_wrapper.addEventListener('input', updateFade);
+
+        const mo = new MutationObserver(() => {
+            requestAnimationFrame(updateFade);
+        });
+
+        mo.observe(read_wrapper, { childList: true, subtree: true, characterData: true });
+
+        window.addEventListener('load', updateFade);
     </script>
 </body>
 
 </html>
-
