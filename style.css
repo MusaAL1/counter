@@ -1,15 +1,54 @@
 html {
-    font-size: 6px;
+    font-size: 10px;
     scroll-behavior: smooth;
 }
 
 :root {
+    /*  Color  */
+    --Main-Background-Color: rgb(24, 32, 40);
+    --Main-Text-Shadow-Color: #1976c290;
+    --Main-Text-Color: #d9fff5;
+    --Main-intro-outline-color: whitesmoke;
+    --Main-shadow-inset-color: rgba(0, 170, 255, 0.507);
+    --Invalid-color: red;
     --after-content: ;
-    --opacity--before-after: 0;
-    --backgroundcolor: rgb(24, 32, 40);
-    --textshadowcolor: #1976c290;
+    --after-content-button: ;
+    --opacity-before-after: 0;
     --read-text-in-out-before: 0;
     --read-text-in-out-after: 0;
+
+    /*  Font sizes  */
+    --fs-xxs: 1rem;
+    /* 10px */
+    --fs-xs: 1.2rem;
+    /* 12px */
+    --fs-sm: 1.4rem;
+    /* 14px */
+    --fs-md: 1.6rem;
+    /* 16px */
+    --fs-lg: 2rem;
+    /* 20px */
+    --fs-xl: 2.5rem;
+    /* 25px */
+    --fs-xxl: 3.2rem;
+    /* 32px */
+
+    /*  Spacing  */
+    --space-1: 0.8rem;
+    /* 8px */
+    --space-2: 1.6rem;
+    /* 16px */
+    --space-3: 2.4rem;
+    /* 24px */
+    --space-4: 3.2rem;
+    /* 32px */
+    --space-5: 4.8rem;
+    /* 48px */
+}
+
+* {
+    margin: 0;
+    -webkit-tap-highlight-color: transparent;
 }
 
 
@@ -83,157 +122,246 @@ html {
     font-style: normal;
 }
 
-* {
-    margin: 0;
-    -webkit-tap-highlight-color: transparent;
-}
-
 body {
-    background-color: rgb(24, 32, 40);
     position: relative;
-    color: aliceblue;
-    min-width: 100vw;
-    min-height: 100vh;
-    overflow: hidden;
     display: flex;
     flex-direction: row;
     justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    min-width: 100vw;
+    min-height: 100vh;
+    overflow: hidden;
     align-items: center;
-        transition: all 0.3s ease;
-
+    background-color: var(--Main-Background-Color, rgb(24, 32, 40));
+    color: var(--Main-Text-Color);
+    transition: all 0.3s ease;
 }
 
-.intro {
+#intro {
     position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(13, 18, 22, 0.905);
-    z-index: 50;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
-    font-style: normal;
-    /* display: none; */
-}
-
-.intro input {
-    z-index: 1;
-    font-family: 'Tajawal', 'Cairo', sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    transition: all 0.3s ease;
-}
-
-.intro button {
-    font-family: 'Cairo', 'Tajawal', sans-serif;
-    font-weight: 700;
-    font-style: normal;
-    z-index: 1;
-    transition: all 0.3s ease;
-}
-
-.background-intro {
-    position: absolute;
     width: 100%;
     height: 100%;
-    cursor: pointer;
+    box-sizing: border-box;
+    overflow: hidden;
+    z-index: 50;
+    background-color: rgba(13, 18, 22, 0.905);
+    display: none;
 }
 
-#clickinput {
-    position: relative;
-    width: 20rem;
-    height: 7.5rem;
-    font-size: 4rem;
-    text-align: center;
-    border-radius: 10px;
-    border: none;
-    box-shadow: 0 0 1.5rem 0 rgba(0, 170, 255, 0.507) inset, 0 0 0 0.2rem whitesmoke;
-    background-color: rgb(2, 20, 36);
-    color: aliceblue;
-    outline: none;
-    cursor: pointer;
-    animation: input 1s linear alternate infinite;
-}
-
-#clickinput:hover {
-    outline: 3px solid goldenrod;
-}
-
-#clickinput:focus {
-    outline: 5px solid goldenrod;
-}
-
-.intro input:not(#clickinput) {
+.invalid {
     position: relative;
     width: 100%;
-    height: 10rem;
-    font-size: 5rem;
-    border-radius: 10px;
-    border: none;
-    box-shadow: 0 0 1.5rem 0 rgba(0, 170, 255, 0.507) inset, 0 0 0 0.2rem whitesmoke;
-    background-color: rgb(2, 20, 36);
-    color: aliceblue;
-    outline: none;
-    padding: 0 2rem 0 0;
-    animation: input 1s linear alternate infinite;
-}
-
-.empty-after-before {
-    position: relative;
-    width: 75vw;
-    max-width: 60rem;
     height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
 }
 
 .invalid::before {
-    position: absolute;
     content: "";
-    border: 2rem solid transparent;
+    position: absolute;
     width: 0;
     height: 0;
-    border-bottom-color: white;
-    right: 10%;
-    opacity: var(--opacity--before-after, 0);
-    filter: blur(0.9px);
-    top: 90%;
+    top: 95%;
+    right: 50%;
+    transform: translateX(50%);
+    border: var(--fs-sm) solid transparent;
+    border-bottom-color: var(--Main-intro-outline-color);
+    opacity: var(--opacity-before-after, 0) ;
+    filter: blur(1px);
     z-index: 1;
     transition: all 0.3s ease;
 }
 
 .invalid::after {
-    font-family: 'Cairo', 'Tajawal', serif;
-    font-weight: 700;
     content: var(--after-content);
     position: absolute;
-    right: 7%;
-    color: black;
-    font-size: 1.8rem;
-    top: 130%;
     height: fit-content;
     width: fit-content;
-    padding: 1rem;
-    background-color: rgb(255, 255, 255);
-    border-radius: 7px;
-    outline: 0.3rem solid red;
-    box-shadow: 0 0 0.3rem 0.38rem white, 0 0 1rem red inset;
+    max-width: 26rem;
+    font-family: 'Cairo', 'Tajawal', serif;
+    font-weight: 700;
+    right: 50%;
+    transform: translateX(50%);
+    font-size: var(--fs-xxs);
+    top: 145%;
+    padding: var(--space-1);
+    border-radius: 1rem;
+    color: black;
+    background-color: rgb(255, 241, 241);
+    box-shadow: 0 0 0.8rem var(--Invalid-color, red) inset, 0 0 0 0.2rem var(--Invalid-color, red), 0 0 0.4rem var(--Main-intro-outline-color);
+    overflow-x: visible;
+    overflow-y: hidden;
+    white-space: nowrap;
     z-index: 1;
-    opacity: var(--opacity--before-after, 0);
+    opacity: var(--opacity-before-after, 0);
     transition: all 0.3s ease;
 }
 
-.intro input:not(#clickinput):hover {
-    outline: 3px solid #daa520 !important;
+#intro :is(.invalid):has(:is(#intro-input-1, #intro-input-2):invalid)::after {
+    content: "الرجاء إدخال الصيغة الصحيحة.";
+    opacity: 1;
 }
 
-.intro input:not(#clickinput):focus {
-    outline: 5px solid #daa520 !important;
+#intro :is(.invalid):has(:is(#intro-input-1, #intro-input-2):invalid)::before {
+    opacity: 1;
 }
 
-.intro input:not(#clickinput)::selection {
+#intro :is(.invalid):has(:is(#intro-input-1, #intro-input-2):valid)::after {
+    opacity: 0;
+}
+
+#intro :is(.invalid):has(:is(#intro-input-1, #intro-input-2):valid)::before {
+    opacity: 0;
+}
+
+#intro :is(#intro-input-1, #intro-input-2):valid {
+    outline: 0.2rem solid var(--Main-intro-outline-color, whitesmoke);
+}
+
+#intro :is(#intro-input-1, #intro-input-2):invalid {
+    outline: 0.2rem solid var(--Invalid-color, red);
+}
+
+#intro :is(#intro-input-1, #intro-input-2) {
+    position: relative;
+    display: block;
+    width: 80vw;
+    max-width: 28rem;
+    height: 5.6rem;
+    padding: 0 var(--space-2);
+    font-size: var(--fs-xl);
+    font-family: 'Tajawal', 'Cairo', sans-serif;
+    font-weight: 400;
+    border: none;
+    border-radius: 1rem;
+    outline: 0.2rem solid var(--Main-intro-outline-color, whitesmoke);
+    color: var(--Main-Text-Color, aliceblue);
+    background: linear-gradient(to right, #042534, #031018);
+    z-index: 1;
+    transition: all 0.3s ease;
+    animation: shadow-intro 1.5s ease-in-out alternate infinite;
+}
+
+#intro :is(#intro-input-1, #intro-input-2):hover,
+#intro :is(#intro-input-1, #intro-input-2):focus {
+    transform: scale(1.02);
+    outline: 0.3rem solid rgb(218, 165, 32);
+    box-shadow:
+        0 0 1.5rem 0 var(--Main-shadow-inset-color) inset,
+        0 0 1rem rgba(0, 255, 200, 0.15) inset,
+        0 0 1.3rem rgba(0, 255, 200, 0.45),
+        0 0 1.5rem rgba(0, 255, 200, 0.25) inset !important;
+}
+
+#intro :is(#intro-input-1, #intro-input-2)::selection {
     background-color: rgba(245, 245, 245, 0.851);
     color: rgb(1, 12, 27);
+}
+
+#click-start-intro {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 70vw;
+    max-width: 24rem;
+    min-height: 5.6rem;
+    padding: 1rem 2rem;
+    font-size: 2rem;
+    font-family: 'Cairo', 'Tajawal', sans-serif;
+    font-weight: 700;
+    text-align: center;
+    border: none;
+    border-radius: 1rem;
+    outline: 0.2rem solid var(--Main-intro-outline-color, whitesmoke);
+    color: var(--Main-Text-Color, aliceblue);
+    background: radial-gradient(circle at center, #042534, #031018);
+    cursor: pointer;
+    z-index: 1;
+    transition: all 0.2s ease;
+    animation: shadow-intro 1.5s ease-in-out alternate infinite;
+}
+
+html::after {
+    content: var(--after-content-button);
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    min-height: 6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 1rem 2rem;
+    font-family: 'Cairo', 'Tajawal', serif;
+    font-weight: 900;
+    text-align: center;
+    right: 0;
+    font-size: var(--fs-sm);
+    bottom: 0;
+    padding: var(--space-1);
+    color: black;
+    background-color: rgb(255, 241, 241);
+    box-shadow: 0 0 0 0.3rem var(--Invalid-color, red) inset, 0 0 1.5rem var(--Invalid-color, red) inset;
+    overflow-y: hidden;
+    white-space: nowrap;
+    z-index: 55;
+    opacity: var(--opacity-before-after, 0);
+    transition: all 0.3s ease;
+}
+
+#click-start-intro:hover,
+#click-start-intro:focus {
+    transform: scale(1.02);
+    outline: 0.3rem solid rgb(218, 165, 32);
+    box-shadow:
+        0 0 1.5rem 0 var(--Main-shadow-inset-color) inset,
+        0 0 1rem rgba(0, 255, 200, 0.15) inset,
+        0 0 1.3rem rgba(0, 255, 200, 0.45),
+        0 0 1.5rem rgba(0, 255, 200, 0.25) inset !important;
+}
+
+#click-start-intro:active {
+    transform: scale(0.97);
+    outline: 0.3rem solid rgb(218, 165, 32);
+    box-shadow:
+        0 0 2.5rem 0 var(--Main-shadow-inset-color) inset,
+        0 0 1.5rem rgba(0, 255, 200, 0.15) inset,
+        0 0 1.3rem rgba(0, 255, 200, 0.45),
+        0 0 1.5rem rgba(0, 255, 200, 0.25) inset !important;
+}
+
+@keyframes shadow-intro {
+
+    0%,
+    100% {
+        box-shadow:
+            0 0 1rem 0 var(--Main-shadow-inset-color) inset,
+            0 0 1rem rgba(0, 255, 200, 0.25),
+            0 0 0.5rem rgba(0, 255, 200, 0.15) inset;
+    }
+
+    50% {
+        box-shadow:
+            0 0 1.5rem 0 var(--Main-shadow-inset-color) inset,
+            0 0 1rem rgba(0, 255, 200, 0.25),
+            0 0 1rem rgba(0, 255, 200, 0.15) inset;
+    }
+}
+
+#background-intro {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
 }
 
 /* ---------- Part Two ---------- */
@@ -241,23 +369,50 @@ body {
 :where(.container) {
     position: relative;
     width: 80vw;
-    max-width: 40rem;
-    min-width: 20rem;
+    max-width: 400px;
+    min-width: 250px;
     aspect-ratio: 1 / 1;
     border-radius: 50%;
-    background-color: rgba(14, 58, 102, 0.5);
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.06) 0%, rgba(0, 255, 170, 0.03) 40%, transparent 70%), rgba(14, 58, 102, 0.5);
     overflow: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    animation: button 3s ease-in-out infinite;
+    animation: container 3s ease-in-out infinite;
     transition-duration: 0.3s;
-    transition-property: width, height;
+    transition-property: width, height, transform, box-shadow;
     transition-timing-function: ease-in-out;
-
 }
 
-@keyframes button {
+.container-active {
+    background: radial-gradient(circle at center,
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(80, 150, 255, 0.05) 50%,
+            transparent 80%),
+        rgba(14, 58, 102, 0.6);
+
+    transform: scale(0.95);
+
+    box-shadow:
+        0 0 3.5rem 1rem rgb(2, 105, 174),
+        0 0 7rem 0.6rem black inset,
+        0 0 7rem 0 rgba(0, 0, 0, 0.5) inset !important;
+}
+
+.container-active-done {
+    background: radial-gradient(circle at center,
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(80, 255, 203, 0.05) 50%,
+            transparent 80%),
+        rgba(14, 102, 61, 0.4) !important;
+
+    box-shadow:
+        0 0 3.5rem 1rem rgba(1, 142, 81, 0.4),
+        0 0 7rem 0.6rem black inset,
+        0 0 7rem 0 rgba(0, 0, 0, 0.5) inset !important;
+}
+
+@keyframes container {
 
     0%,
     100% {
@@ -282,15 +437,16 @@ body {
 .container :where(#adadprog) {
     position: absolute;
     top: 15%;
-    font-size: 5rem;
+
+    font-size: var(--fs-xl);
     max-height: 8rem;
-    height: 20%;
+    height: 17%;
     font-family: 'Cairo', 'Tajawal', sans-serif;
     font-weight: 700;
     max-width: 21.5rem;
-    width: 55.5%;
+    width: 45.5%;
     text-align: center;
-    border-radius: 2rem;
+    border-radius: 1rem;
     border: none;
     background-color: rgb(2, 20, 36);
     box-shadow: 0 0 3.3rem 0 rgba(0, 170, 255, 0.507) inset, 0 0 0 0.2rem whitesmoke;
@@ -301,78 +457,21 @@ body {
 
 .container :where(#adadgoal) {
     position: absolute;
-    top: 65%;
-    font-size: 4.5rem;
+    top: 70%;
+    font-size: var(--fs-lg);
     max-height: 8rem;
-    height: 20%;
+    height: 17%;
     font-weight: 700;
     font-family: 'Cairo', 'Tajawal', sans-serif;
     max-width: 21.5rem;
-    width: 55.5%;
+    width: 45.5%;
     text-align: center;
     color: #dcffe9;
-    border-radius: 20px;
+    border-radius: 1rem;
     background-color: rgb(2, 20, 36);
     box-shadow: 0 0 3.3rem 0 rgba(0, 170, 255, 0.507) inset, 0 0 0 0.2rem whitesmoke;
     border: none;
     animation: input 1s linear alternate infinite;
-}
-
-@keyframes input {
-    0% {
-        box-shadow: 0 0 1.5rem 0 rgba(0, 170, 255, 0.507) inset,
-            0 0 0 0.2rem whitesmoke;
-    }
-
-    10% {
-        box-shadow: 0 0 2rem 0 rgba(0, 170, 255, 0.507) inset,
-            0 0 0 0.2rem whitesmoke;
-    }
-
-    20% {
-        box-shadow: 0 0 2.5rem 0 rgba(0, 170, 255, 0.507) inset,
-            0 0 0 0.2rem whitesmoke;
-    }
-
-    30% {
-        box-shadow: 0 0 3rem 0 rgba(0, 170, 255, 0.507) inset,
-            0 0 0 0.2rem whitesmoke;
-    }
-
-    40% {
-        box-shadow: 0 0 3.5rem 0 rgba(0, 170, 255, 0.507) inset,
-            0 0 0 0.2rem whitesmoke;
-    }
-
-    50% {
-        box-shadow: 0 0 4rem 0 rgba(0, 170, 255, 0.507) inset,
-            0 0 0 0.2rem whitesmoke;
-    }
-
-    60% {
-        box-shadow: 0 0 3.5rem 0 rgba(0, 170, 255, 0.507) inset,
-            0 0 0 0.2rem whitesmoke;
-    }
-
-    70% {
-        box-shadow: 0 0 3rem 0 rgba(0, 170, 255, 0.507) inset,
-            0 0 0 0.2rem whitesmoke;
-    }
-
-    80% {
-        box-shadow: 0 0 2rem 0 rgba(0, 170, 255, 0.507) inset,
-            0 0 0 0.2rem whitesmoke;
-    }
-
-    90% {
-        box-shadow: 0 0 1.5rem 0 rgba(0, 170, 255, 0.507) inset,
-            0 0 0 0.2rem whitesmoke;
-    }
-
-    100% {
-        box-shadow: 0 0 3rem 0 rgba(0, 170, 255, 0.507) inset,
-            0 0 0 0.2rem whitesmoke;
-    }
 }
 
 .read-wrapper {
@@ -383,7 +482,7 @@ body {
     padding: 0.5rem 0.6rem;
     box-sizing: border-box;
     scrollbar-width: thin;
-    scrollbar-color: aliceblue rgba(240, 248, 255, 0.1);
+    scrollbar-color: var(--Main-Text-Color, aliceblue) rgba(240, 248, 255, 0.1);
     z-index: 1;
     text-align: center;
 }
@@ -397,7 +496,7 @@ body {
 }
 
 .read-wrapper::-webkit-scrollbar-thumb {
-    background: aliceblue;
+    background: var(--Main-Text-Color, aliceblue);
 }
 
 .read-wrapper::-webkit-scrollbar-thumb:hover {
@@ -408,13 +507,13 @@ body {
     display: inline-block;
     white-space: nowrap;
     overflow-y: hidden;
-    font-size: 6.5rem;
+    font-size: calc(var(--fs-xxl) + 0.8rem);
     font-weight: 700;
     font-family: 'Lateef', 'Amiri', sans-serif;
-    color: aliceblue;
+    color: var(--Main-Text-Color, aliceblue);
     background: transparent;
     -webkit-font-smoothing: antialiased;
-    text-shadow: 0 0 4px var(--textshadowcolor, black);
+    text-shadow: 0 0 4px var(--Main-Text-Shadow-Color, black);
     transition: outline 0.3s ease-in-out;
     padding: 0 1rem;
     border-radius: 6px;
@@ -422,11 +521,11 @@ body {
 }
 
 .read-text:focus {
-    outline: 0.5rem double rgba(218, 165, 32, 0.5);
+    outline: 0.4rem double rgba(218, 165, 32, 0.5);
 }
 
 .read-text:hover {
-    outline: 0.5rem double goldenrod;
+    outline: 0.4rem double goldenrod;
 }
 
 .read-text::selection {
@@ -478,66 +577,70 @@ body {
     cursor: pointer;
 }
 
-.background-click:active {
-    background: radial-gradient(circle at center, rgba(129, 129, 129, 0.1) 0%, transparent 50%);
-}
-
 .container #adadgoaldone {
-    display: none !important;
     position: absolute;
     width: fit-content;
     height: fit-content;
-    top: 5%;
+    top: 7%;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 4.5rem;
-    display: none;
+    font-size: 2.5rem;
+    display: none !important;
 }
 
 #reset img {
     width: 55%;
+    transition: all 0.7s ease;
 }
 
 #reset {
     position: absolute;
     top: 15%;
-    right: 9%;
-    width: 7rem;
-    height: 7rem;
+    right: 12%;
+    width: 5rem;
+    aspect-ratio: 1 / 1;
     text-align: center;
     border-radius: 50%;
-    box-shadow: 0 0 1.5rem 0 rgba(253, 19, 19, 0.684) inset, 0 0 0 0.1rem whitesmoke;
     background-color: rgb(36, 2, 2);
-    color: aliceblue;
     outline: none;
     cursor: pointer;
     z-index: 10;
-    animation: reset 1.5s linear alternate infinite;
+    /* animation: reset 1.5s linear alternate infinite; */
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: transform 0.5s ease;
+    transition: transform 0.7s ease;
+    box-shadow: 0 0 1.5rem rgba(255, 0, 0, 0.5) inset, 0 0 0.2rem whitesmoke;
+
 }
 
 #reset:hover {
-    outline: 0.5rem goldenrod double;
+    outline: 0.4rem goldenrod double;
 }
 
 #reset:focus {
-    outline: 0.5rem rgba(218, 165, 32, 0.5) double;
+    outline: 0.4rem rgba(218, 165, 32, 0.5) double;
 }
 
 .reset-active {
-    transform: scale(1.1);
+    transform: scale(0.85);
     animation: reset-active 1.5s ease-in-out alternate infinite !important;
 }
 
 .reset-active-2 {
-    transform: scale(1.5);
+    transform: scale(1.8);
     animation: reset-active-2 1.5s ease-in-out alternate infinite !important;
 }
 
+.reset-after-active {
+    transform: scale(0.8);
+    background-color: rgb(0, 0, 0) !important;
+    pointer-events: none;
+    box-shadow: 0 0 1.5rem rgba(87, 87, 87, 0.5) inset, 0 0 0.2rem whitesmoke !important;
+}
+
 @keyframes reset {
+
     0%,
     100% {
         box-shadow:
@@ -562,21 +665,21 @@ body {
             0 0 0.7rem 0.1rem rgb(168, 54, 54),
             0 0 1rem 0.5rem rgba(217, 16, 16, 0.684) inset,
             0 0 0.2rem 0.1rem rgba(0, 0, 0, 0.5) inset,
-            0 0 0 1.3rem var(--backgroundcolor),
-            0 0 0 2rem rgb(104, 8, 8),
-            0 0 0 2.7rem var(--backgroundcolor),
-            0 0 0 3.2rem rgba(53, 36, 36, 0.8);
+            0 0 0 1rem var(--Main-Background-Color, rgb(24, 32, 40)),
+            0 0 0 1.4rem rgb(104, 8, 8),
+            0 0 0 2.5rem var(--Main-Background-Color, rgb(24, 32, 40)),
+            0 0 0 2.8rem rgba(53, 36, 36, 0.8);
     }
 
     50% {
         box-shadow:
-            0 0 1rem 0.5rem rgb(168, 54, 54),
-            0 0 2rem 0.8rem rgba(217, 16, 16, 0.684) inset,
+            0 0 1rem 0.3rem rgb(168, 54, 54),
+            0 0 1.5rem 0.6rem rgba(217, 16, 16, 0.684) inset,
             0 0 3rem 0.3rem rgba(0, 0, 0, 0.5) inset,
-            0 0 0 1.3rem var(--backgroundcolor),
-            0 0 0 2rem rgb(108, 4, 4),
-            0 0 0 2.7rem var(--backgroundcolor),
-            0 0 0 3.7rem rgba(53, 36, 36, 0.8);
+            0 0 0 1rem var(--Main-Background-Color, rgb(24, 32, 40)),
+            0 0 0 1.8rem rgb(108, 4, 4),
+            0 0 0 2.5rem var(--Main-Background-Color, rgb(24, 32, 40)),
+            0 0 0 3.2rem rgba(53, 36, 36, 0.8);
     }
 }
 
@@ -588,10 +691,10 @@ body {
             0 0 0.7rem 0.1rem rgb(168, 54, 54),
             0 0 1rem 0.5rem rgba(217, 16, 16, 0.684) inset,
             0 0 0.2rem 0.1rem rgba(0, 0, 0, 0.5) inset,
-            0 0 0 1.3rem var(--backgroundcolor),
-            0 0 0 2rem rgb(104, 8, 8),
-            0 0 0 2.7rem var(--backgroundcolor),
-            0 0 0 3.2rem rgb(104, 8, 8);
+            0 0 0 1rem var(--Main-Background-Color, rgb(24, 32, 40)),
+            0 0 0 1.6rem rgb(104, 8, 8),
+            0 0 0 2.4rem var(--Main-Background-Color, rgb(24, 32, 40)),
+            0 0 0 2.7rem rgb(104, 8, 8);
     }
 
     50% {
@@ -599,12 +702,13 @@ body {
             0 0 1rem 0.5rem rgb(168, 54, 54),
             0 0 2rem 0.8rem rgba(217, 16, 16, 0.684) inset,
             0 0 3rem 0.3rem rgba(0, 0, 0, 0.5) inset,
-            0 0 0 1.3rem var(--backgroundcolor),
-            0 0 0 2rem rgb(108, 4, 4),
-            0 0 0 2.7rem var(--backgroundcolor),
-            0 0 0 3.7rem rgb(108, 4, 4);
+            0 0 0 1rem var(--Main-Background-Color, rgb(24, 32, 40)),
+            0 0 0 1.6rem rgb(108, 4, 4),
+            0 0 0 2.4rem var(--Main-Background-Color, rgb(24, 32, 40)),
+            0 0 0 3.2rem rgb(108, 4, 4);
     }
 }
+
 
 .adadgoal {
     background: radial-gradient(circle at center, #0f2d20 0%, #061510 100%) !important;
@@ -649,4 +753,46 @@ body {
             0 0 5rem 0.4rem black inset,
             0 0 5rem 0 rgba(0, 0, 0, 0.5) inset;
     }
+}
+
+@media (min-width: 600px) {
+    html {
+        font-size: 12px;
+    }
+
+    #click-start-intro {
+        max-width: 26rem;
+        min-height: 6.8rem;
+        font-size: 2.2rem;
+    }
+}
+
+@media (min-width: 1024px) {
+    html {
+        font-size: 14px;
+    }
+
+    #click-start-intro {
+        max-width: 28rem;
+        min-height: 7.2rem;
+        font-size: 2.4rem;
+    }
+
+    #intro :is(#intro-input-1, #intro-input-2) {
+        max-width: 38rem;
+        min-height: 7.2rem;
+        font-size: 2.4rem;
+    }
+}
+
+@media (min-width: 1440px) {
+    html {
+        font-size: 16px;
+    }
+
+    :root {
+        --fs-xl: 3rem;
+        --fs-xxl: 4rem;
+    }
+
 }
