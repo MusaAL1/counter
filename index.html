@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
     <link rel="stylesheet" href="./style.css">
     <link rel=" icon" href="./assets/imags/beads.png" type="image/png">
     <link rel="apple-touch-icon" href="./assets/imags/beads.png">
@@ -11,15 +13,16 @@
 </head>
 
 <body id="body">
-    <div id="intro" class="intro">
-        <div id="invalid-1" class="empty-after-before invalid">
-            <input type="text" required id="introinput1" placeholder="أدخل عنوان الهدف!" autofocus />
+    <div id="intro">
+        <div id="invalid-1" class="invalid">
+            <input type="text" id="intro-input-1" pattern="[A-Za-z\u0600-\u06FF]{1,1000}"
+                placeholder="أدخل عنوان الهدف!" autofocus />
         </div>
-        <div id="invalid-2" class="empty-after-before invalid">
-            <input type="text" required id="introinput2" maxlength="5" placeholder="أدخل عدد التكرار!" />
+        <div id="invalid-2" class="invalid">
+            <input type="text" id="intro-input-2" maxlength="5" pattern="[0-9]{1,5}" placeholder="أدخل عدد التكرار!" />
         </div>
-        <button type="submit" id="clickinput">أبدأ</button>
-        <div id="background-intro" class="background-intro"></div>
+        <button type="submit" id="click-start-intro">أبدأ</button>
+        <div id="background-intro"></div>
     </div>
 
     <div class="container" id="container">
@@ -34,20 +37,21 @@
     <div id="reset" tabindex="0"><img src="./assets/imags/agin.png" alt="Reset"></div>
     <div id="background-2" class="background-click" tabindex="0"></div>
     <script>
+        let intro = document.getElementById('intro');
+        let background_intro = document.getElementById('background-intro');
+        let intro_input_1 = document.getElementById('intro-input-1');
+        let intro_input_2 = document.getElementById('intro-input-2');
+        let click_start_intro = document.getElementById('click-start-intro');
+
         var input1 = "";
         var input2 = 100;
-        input2 = 0;
+        input2 = 10;
         var click = document.getElementById('click');
         var num = document.getElementById('adadprog');
         num = 0;
         var adadgoal = document.getElementById('adadgoal');
         let reset = document.getElementById('reset');
 
-        let introinput_1 = document.getElementById('introinput1');
-        let introinput_2 = document.getElementById('introinput2');
-        let clickinput = document.getElementById('clickinput');
-        let intro = document.getElementById('intro');
-        let background_intro = document.getElementById('background-intro');
         let background_2 = document.getElementById('background-2');
 
         const read_wrapper = document.getElementById('read-wrapper');
@@ -71,12 +75,12 @@
             return out;
         }
 
-        clickinput.onclick = function () {
-            introinput_1_s = String(introinput_1.value).trim();
-            introinput_2_s = String(introinput_2.value).trim();
+        click_start_intro.onclick = function () {
+            intro_input_1_s = String(intro_input_1.value).trim();
+            intro_input_2_s = String(intro_input_2.value).trim();
 
-            let norm_1 = normalizeEasternArabixDigits(introinput_1_s);
-            let norm_2 = normalizeEasternArabixDigits(introinput_2_s);
+            let norm_1 = normalizeEasternArabixDigits(intro_input_1_s);
+            let norm_2 = normalizeEasternArabixDigits(intro_input_2_s);
 
             const hasDigit_1 = /[0-9]/.test(norm_1);
             const hasAlpha_1 = /[A-Za-z\u0600-\u06FF]/.test(norm_1);
@@ -86,82 +90,87 @@
             const hasAlpha_2 = /[A-Za-z\u0600-\u06FF]/.test(norm_2);
             const hasignore_2 = /[,.\/?\\{}\[\]:"'<>|!@#$%^&*()_\-+=~`]/.test(norm_2);
 
-            if (introinput_1_s === '' && introinput_2_s === '') {
-                introinput_1.style.outline = '3px solid red';
-                introinput_2.style.outline = '3px solid red';
+            if (intro_input_1_s === '' && intro_input_2_s === '') {
+                intro_input_1.style.outline = '0.2rem solid red';
+                intro_input_2.style.outline = '0.2rem solid red' ;
 
-                document.getElementById('invalid-1').style.setProperty('--opacity--before-after', '1');
-                document.getElementById('invalid-1').style.setProperty('--after-content', '"الحقل فارغ!؛ الرجاء ملؤه."');
-
-                document.getElementById('invalid-2').style.setProperty('--opacity--before-after', '1');
-                document.getElementById('invalid-2').style.setProperty('--after-content', '"الحقل فارغ!؛ الرجاء ملؤه."');
-
+                document.querySelector('html').style.setProperty('--after-content-button', '"الحقول فارغة!؛ الرجاء ملؤها."');
+                document.querySelector('html').style.setProperty('--opacity-before-after', '1');
+                document.querySelector('html').classList.add('after-rise');
+                
                 return;
             }
 
             else if ((!hasAlpha_1 && hasDigit_1 && !hasDigit_2 && hasAlpha_2) || (hasignore_1 & hasignore_2)) {
-                introinput_1.style.outline = '3px solid red';
-                introinput_2.style.outline = '3px solid red';
+                intro_input_1.style.outline = '0.2rem solid red';
+                intro_input_2.style.outline = '0.2rem solid red';
 
-                document.getElementById('invalid-1').style.setProperty('--opacity--before-after', '1');
-                document.getElementById('invalid-1').style.setProperty('--after-content', '"الرجاء إدخال الصيغة الصحيحة."');
-
-                document.getElementById('invalid-2').style.setProperty('--opacity--before-after', '1');
-                document.getElementById('invalid-2').style.setProperty('--after-content', '"الرجاء إدخال الصيغة الصحيحة."');
-
+                document.querySelector('html').style.setProperty('--after-content-button', '"الرجاء إدخال الصيغ الصحيحة في الحقول."');
+                document.querySelector('html').style.setProperty('--opacity-before-after', '1');
+                document.querySelector('html').classList.add('after-rise');
+                
+                
                 return;
             }
 
-            if (introinput_1_s === '') {
-                introinput_1.style.outline = '3px solid red';
-                document.getElementById('invalid-1').style.setProperty('--opacity--before-after', '1');
-                document.getElementById('invalid-1').style.setProperty('--after-content', '"الحقل فارغ!؛ الرجاء ملؤه."');
-            }
+            if (intro_input_1_s === '') {
+                intro_input_1.style.outline = '0.2rem solid red';
 
+                document.querySelector('html').style.setProperty('--after-content-button', '"الحقل الأول فارغ!؛ الرجاء ملؤه."');
+                document.querySelector('html').style.setProperty('--opacity-before-after', '1');
+                document.querySelector('html').classList.add('after-rise');
+            }
+            
             else if ((!hasAlpha_1 && hasDigit_1) || hasDigit_1 || hasignore_1) {
-                introinput_1.style.outline = '3px solid red';
-                document.getElementById('invalid-1').style.setProperty('--opacity--before-after', '1');
-                document.getElementById('invalid-1').style.setProperty('--after-content', '"الرجاء إدخال الصيغة الصحيحة."');
+                intro_input_1.style.outline = '0.2rem solid red';
+
+                document.querySelector('html').style.setProperty('--after-content-button', '"الرجاء إدخال الصيغة الصحيحة في الحقل الأول."');
+                document.querySelector('html').style.setProperty('--opacity-before-after', '1');
+                document.querySelector('html').classList.add('after-rise');
             }
+            
+            
 
+            if (intro_input_2_s === '') {
+                intro_input_2.style.outline = '0.2rem solid red';
 
-
-            if (introinput_2_s === '') {
-                introinput_2.style.outline = '3px solid red';
-                document.getElementById('invalid-2').style.setProperty('--opacity--before-after', '1');
-                document.getElementById('invalid-2').style.setProperty('--after-content', '"الحقل فارغ!؛ الرجاء ملؤه."');
+                document.querySelector('html').style.setProperty('--after-content-button', '"الحقل الثاني فارغ!؛ الرجاء ملؤه."');
+                document.querySelector('html').style.setProperty('--opacity-before-after', '1');
+                document.querySelector('html').classList.add('after-rise');
             }
-
+            
             else if ((!hasDigit_2 && hasAlpha_2) || hasAlpha_2 || hasignore_2) {
-                introinput_2.style.outline = '3px solid red';
-                document.getElementById('invalid-2').style.setProperty('--opacity--before-after', '1');
-                document.getElementById('invalid-2').style.setProperty('--after-content', '"الرجاء إدخال الصيغة الصحيحة."');
+                intro_input_2.style.outline = '0.2rem solid red';
+
+                document.querySelector('html').style.setProperty('--after-content-button', '"الرجاء إدخال الصيغة الصحيحة في الحقل الثاني."');
+                document.querySelector('html').style.setProperty('--opacity-before-after', '1');
+                document.querySelector('html').classList.add('after-rise');
             }
 
 
             if (hasAlpha_1 && !hasDigit_1 && !hasignore_1) {
-                document.getElementById('invalid-1').style.setProperty('--opacity--before-after', '0');
-                introinput_1.style.outline = 'none';
+                document.getElementById('invalid-1').style.setProperty('--opacity-before-after', '0');
+                intro_input_1.style.outline = 'none';
             }
 
 
             if (hasDigit_2 && !hasAlpha_2 && !hasignore_2) {
-                document.getElementById('invalid-2').style.setProperty('--opacity--before-after', '0');
-                introinput_2.style.outline = 'none';
+                document.getElementById('invalid-2').style.setProperty('--opacity-before-after', '0');
+                intro_input_2.style.outline = 'none';
             }
 
             if (hasAlpha_1 && !hasDigit_1 && !hasignore_1 && hasDigit_2 && !hasAlpha_2 && !hasignore_2) {
-                document.getElementById('invalid-1').style.setProperty('--opacity--before-after', '0');
-                introinput_1.style.outline = 'none';
+                document.getElementById('invalid-1').style.setProperty('--opacity-before-after', '0');
+                intro_input_1.style.outline = 'none';
 
-                document.getElementById('invalid-2').style.setProperty('--opacity--before-after', '0');
-                introinput_2.style.outline = 'none';
+                document.getElementById('invalid-2').style.setProperty('--opacity-before-after', '0');
+                intro_input_2.style.outline = 'none';
 
-                document.getElementById('read').textContent = introinput_1.value;
+                document.getElementById('read').textContent = intro_input_1.value;
 
-                input2 = introinput_2.value;
-                num.value = introinput_2.value;
-                adadgoal.value = introinput_2.value;
+                input2 = intro_input_2.value;
+                num.value = intro_input_2.value;
+                adadgoal.value = intro_input_2.value;
 
                 intro.style.display = "none";
                 return;
@@ -171,6 +180,12 @@
 
         background_2.onclick = function () {
             read_wrapper.scrollTo({ left: 0, behavior: 'smooth' });
+            document.getElementById('container').classList.add('container-active');
+            document.getElementById('body').classList.add('background-click-body-active');
+
+            resetTimer = setTimeout(() => {
+                document.getElementById('container').classList.remove('container-active');
+            }, 450)
 
             if ((num + 1) < input2) {
                 num++;
@@ -179,18 +194,24 @@
 
             else {
                 document.getElementById("adadprog").value = "تم!";
-                document.getElementById("adadprog").style.fontSize = '4.5rem';
+                document.getElementById("adadprog").style.fontSize = '2rem';
                 document.getElementById('adadprog').classList.add('adadgoal');
 
                 document.getElementById("body").style.backgroundColor = '#0b1f16';
 
-                document.getElementById('reset').style.setProperty('--backgroundcolor', '#0b1f16');
+                document.getElementById('reset').style.setProperty('--Main-Background-Color', '#0b1f16');
 
-                document.getElementById('read').style.setProperty('--textshadowcolor', '#19c27f90');
+                document.getElementById('read').style.setProperty('--Main-Text-Shadow-Color', '#19c27f90');
 
                 adadgoal.classList.add('adadgoal');
 
                 document.getElementById('container').classList.add('adadgoalcon');
+
+                document.getElementById('container').classList.add('container-active-done');
+
+                resetTimer = setTimeout(() => {
+                    document.getElementById('container').classList.remove('container-active-done');
+                }, 450)
 
                 document.getElementById("adadgoaldone").style.display = 'block';
             }
@@ -221,17 +242,26 @@
 
                 document.getElementById("adadgoaldone").style.display = 'none';
 
-                document.getElementById('read').style.setProperty('--textshadowcolor', '#1976c290');
+                document.getElementById('read').style.setProperty('--Main-Text-Shadow-Color', '#1976c290');
 
                 document.getElementById('reset').classList.add('reset-active-2');
 
                 resetTimer = setTimeout(() => {
-                    document.getElementById('reset').classList.remove('reset-active');
-                    document.getElementById('reset').classList.remove('reset-active-2');
+                    document.getElementById('reset').classList.remove('reset-active', 'reset-active-2');
                 }, 100)
+                
+                document.getElementById('reset').style.setProperty('--Main-Background-Color', 'rgb(24, 32, 40)');
+                
+                setTimeout(() => {
+                    document.getElementById('reset').classList.add('reset-after-active');
 
-                document.getElementById('reset').style.setProperty('--backgroundcolor', 'rgb(24, 32, 40)');
+                    setTimeout(() => {
+                        document.getElementById('reset').classList.remove('reset-after-active');
+                    }, 1500);
 
+                }, 500);
+                
+                
                 reset_test = 0;
             }
 
