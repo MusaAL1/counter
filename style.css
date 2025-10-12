@@ -150,7 +150,6 @@ body {
     overflow: hidden;
     z-index: 50;
     background-color: rgba(13, 18, 22, 0.905);
-    display: none;
 }
 
 .invalid {
@@ -796,3 +795,4 @@ html::after {
     }
 
 }
+
