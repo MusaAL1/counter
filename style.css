@@ -1,6 +1,7 @@
-html {
-    font-size: 10px;
-    scroll-behavior: smooth;
+* {
+    margin: 0;
+    -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box;
 }
 
 :root {
@@ -10,10 +11,22 @@ html {
     --Main-Text-Color: #d9fff5;
     --Main-intro-outline-color: whitesmoke;
     --Main-shadow-inset-color: rgba(0, 170, 255, 0.507);
+    --Invalid-border-color: #dc3545;
+    --Invalid-background-color: #58151c;
+    --Invalid-text-color: #fcc4c8;
     --Invalid-color: red;
-    --after-content: ;
-    --after-content-button: ;
-    --opacity-before-after: 0;
+
+    /* Content */
+    --before-content-click-start: ;
+    --after-content-click-start: ;
+
+    /* Translate */
+    --before-content-click-start-translate: translateY(100%);
+    --after-content-click-start-translate: translateY(100%);
+
+    /* Opacity */
+    --opacity-click-start-before: 0;
+    --opacity-click-start-after: 0;
     --read-text-in-out-before: 0;
     --read-text-in-out-after: 0;
 
@@ -33,6 +46,8 @@ html {
     --fs-xxl: 3.2rem;
     /* 32px */
 
+    /* Particular Font size */
+    --fs-before-syn: var(--fs-sm);
     /*  Spacing  */
     --space-1: 0.8rem;
     /* 8px */
@@ -46,9 +61,52 @@ html {
     /* 48px */
 }
 
-* {
-    margin: 0;
-    -webkit-tap-highlight-color: transparent;
+html {
+    font-size: 10px;
+    scroll-behavior: smooth;
+}
+
+html::after,
+html::before {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    min-height: 6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: 1rem 2rem;
+    font-family: 'Cairo', 'Tajawal', serif;
+    font-weight: 900;
+    text-align: center;
+    right: 0;
+    font-size: var(--fs-sm);
+    bottom: 0;
+    padding: var(--space-1);
+    color: var(--Invalid-text-color);
+    background-color: var(--Invalid-background-color);
+    box-shadow: 0 0 0 0.3rem var(--Invalid-border-color, red) inset, 0 0 1.5rem var(--Invalid-border-color, red) inset;
+    overflow-y: hidden;
+    white-space: nowrap;
+    scrollbar-width: thin;
+    scrollbar-color: red rgb(255, 148, 148);
+    z-index: 55;
+    transition: all 0.3s ease;
+}
+
+html::before {
+    font-size: var(--fs-before-syn, 1.4rem);
+    content: var(--before-content-click-start);
+    transform: var(--before-content-click-start-translate, translateY(100%));
+    opacity: var(--opacity-click-start-before, 0);
+}
+
+html::after {
+    content: var(--after-content-click-start);
+    transform: var(--after-content-click-start-translate, translateY(100%));
+    opacity: var(--opacity-click-start-after, 0);
 }
 
 
@@ -149,92 +207,19 @@ body {
     box-sizing: border-box;
     overflow: hidden;
     z-index: 50;
-    background-color: rgba(13, 18, 22, 0.905);
-}
-
-.invalid {
-    position: relative;
-    width: 100%;
-    height: fit-content;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    white-space: nowrap;
-}
-
-.invalid::before {
-    content: "";
-    position: absolute;
-    width: 0;
-    height: 0;
-    top: 95%;
-    right: 50%;
-    transform: translateX(50%);
-    border: var(--fs-sm) solid transparent;
-    border-bottom-color: var(--Main-intro-outline-color);
-    opacity: var(--opacity-before-after, 0) ;
-    filter: blur(1px);
-    z-index: 1;
+    background-color: rgba(13, 18, 22, 0.9);
     transition: all 0.3s ease;
+    /* display: none; */
 }
 
-.invalid::after {
-    content: var(--after-content);
-    position: absolute;
-    height: fit-content;
-    width: fit-content;
-    max-width: 26rem;
-    font-family: 'Cairo', 'Tajawal', serif;
-    font-weight: 700;
-    right: 50%;
-    transform: translateX(50%);
-    font-size: var(--fs-xxs);
-    top: 145%;
-    padding: var(--space-1);
-    border-radius: 1rem;
-    color: black;
-    background-color: rgb(255, 241, 241);
-    box-shadow: 0 0 0.8rem var(--Invalid-color, red) inset, 0 0 0 0.2rem var(--Invalid-color, red), 0 0 0.4rem var(--Main-intro-outline-color);
-    overflow-x: visible;
-    overflow-y: hidden;
-    white-space: nowrap;
-    z-index: 1;
-    opacity: var(--opacity-before-after, 0);
-    transition: all 0.3s ease;
-}
-
-#intro :is(.invalid):has(:is(#intro-input-1, #intro-input-2):invalid)::after {
-    content: "الرجاء إدخال الصيغة الصحيحة.";
-    opacity: 1;
-}
-
-#intro :is(.invalid):has(:is(#intro-input-1, #intro-input-2):invalid)::before {
-    opacity: 1;
-}
-
-#intro :is(.invalid):has(:is(#intro-input-1, #intro-input-2):valid)::after {
-    opacity: 0;
-}
-
-#intro :is(.invalid):has(:is(#intro-input-1, #intro-input-2):valid)::before {
-    opacity: 0;
-}
-
-#intro :is(#intro-input-1, #intro-input-2):valid {
-    outline: 0.2rem solid var(--Main-intro-outline-color, whitesmoke);
-}
-
-#intro :is(#intro-input-1, #intro-input-2):invalid {
-    outline: 0.2rem solid var(--Invalid-color, red);
-}
 
 #intro :is(#intro-input-1, #intro-input-2) {
     position: relative;
     display: block;
     width: 80vw;
     max-width: 28rem;
-    height: 5.6rem;
-    padding: 0 var(--space-2);
+    height: 6rem;
+    padding: 0.8rem var(--space-2);
     font-size: var(--fs-xl);
     font-family: 'Tajawal', 'Cairo', sans-serif;
     font-weight: 400;
@@ -250,18 +235,159 @@ body {
 
 #intro :is(#intro-input-1, #intro-input-2):hover,
 #intro :is(#intro-input-1, #intro-input-2):focus {
-    transform: scale(1.02);
-    outline: 0.3rem solid rgb(218, 165, 32);
-    box-shadow:
-        0 0 1.5rem 0 var(--Main-shadow-inset-color) inset,
-        0 0 1rem rgba(0, 255, 200, 0.15) inset,
-        0 0 1.3rem rgba(0, 255, 200, 0.45),
-        0 0 1.5rem rgba(0, 255, 200, 0.25) inset !important;
+    transform: scale(1.025);
+    outline: 0.25rem solid rgba(255, 166, 0, 0.7);
+}
+
+#intro #intro-input-2:invalid {
+    outline: 0.25rem solid var(--Invalid-color, red);
+}
+
+.intro-intro-inputs-invalid {
+    outline: 0.25rem solid var(--Invalid-color, red) !important;
 }
 
 #intro :is(#intro-input-1, #intro-input-2)::selection {
     background-color: rgba(245, 245, 245, 0.851);
     color: rgb(1, 12, 27);
+}
+
+#intro-input-2+div {
+    position: absolute;
+    display: block;
+    width: 80vw;
+    max-width: 28rem;
+    height: 5.8rem;
+}
+
+#intro-input-2+div::before {
+    content: "";
+    position: absolute;
+    width: 1.3rem;
+    height: 1.3rem;
+    top: 126%;
+    right: 10%;
+    background-color: var(--Invalid-background-color, #58151c);
+    transform: translateX(100%) rotate(45deg);
+    border: 0.2rem solid var(--Invalid-border-color, #dc3545);
+    border-bottom-color: transparent;
+    border-right-color: transparent;
+    opacity: 1;
+    z-index: 51;
+    transition: all 0.3s ease;
+}
+
+
+#intro-input-2+div::after {
+    content: "الرجاء إدخال صيغة صحيحة (0-9).";
+    position: absolute;
+    height: fit-content;
+    width: fit-content;
+    max-width: 26rem;
+    font-family: 'Cairo', 'Tajawal', serif;
+    font-weight: 700;
+    right: 5%;
+    transform: translateX(20%);
+    font-size: var(--fs-xxs);
+    top: 137%;
+    padding: var(--space-1);
+    border-radius: 0.4rem;
+    color: black;
+    background-color: var(--Invalid-background-color, #58151c);
+    color: var(--Invalid-text-color, #fcc4c8);
+    border: 0.2rem solid var(--Invalid-border-color, #dc3545);
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    z-index: 50;
+    opacity: 1;
+    transition: all 0.5s ease;
+}
+
+#intro-input-2:invalid+div::after {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+#intro-input-2:invalid+div::before {
+    opacity: 1;
+    transform: translateX(-50%) rotate(45deg);
+}
+
+#intro-input-2:valid+div::after {
+    opacity: 0;
+}
+
+#intro-input-2:valid+div::before {
+    opacity: 0;
+}
+
+:is(#suggestions, #suggestions-2) {
+    position: absolute;
+    background: rgba(24, 32, 40, 0.15);
+    backdrop-filter: blur(2rem) saturate(150%);
+    -webkit-backdrop-filter: blur(2rem) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 1.6rem;
+    box-shadow: 0 0 0.3rem rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    list-style: none;
+    padding: var(--space-1);
+    width: 80vw;
+    max-width: 28rem;
+    max-height: 180px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--Main-intro-outline-color, whitesmoke) transparent;
+    z-index: 999;
+}
+
+#suggestions {
+    top: 29%;
+}
+
+#suggestions-2 {
+    top: 56.5%;
+}
+
+:is(#suggestions, #suggestions-2) li {
+    padding: 0.7rem 0.75rem;
+    cursor: pointer;
+    font-size: var(--fs-sm);
+    border-radius: 0.4rem;
+    font-family: 'Cairo', 'Tajawal', serif;
+    font-weight: 700;
+}
+
+:is(#suggestions, #suggestions-2) li::before {
+    content: "";
+    position: absolute;
+    background-color: rgb(255, 255, 255);
+    height: 2.5rem;
+    width: 0.11rem;
+    z-index: 2;
+    right: 2.7%;
+    transition: all 0.25s ease;
+    border-radius: 0.5rem;
+}
+
+#suggestions-2 {
+    font-size: var(--fs-xl);
+}
+
+:is(#suggestions, #suggestions-2) li:hover {
+    background-color: rgba(245, 245, 245, 0.869);
+    color: rgb(1, 12, 17);
+}
+
+:is(#suggestions, #suggestions-2) li:hover::before {
+    background-color: rgb(1, 12, 17);
+    width: 0.4rem;
+    right: 3%;
+}
+
+.hidden {
+    display: none;
 }
 
 #click-start-intro {
@@ -288,44 +414,11 @@ body {
     animation: shadow-intro 1.5s ease-in-out alternate infinite;
 }
 
-html::after {
-    content: var(--after-content-button);
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100vw;
-    min-height: 6rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-sizing: border-box;
-    padding: 1rem 2rem;
-    font-family: 'Cairo', 'Tajawal', serif;
-    font-weight: 900;
-    text-align: center;
-    right: 0;
-    font-size: var(--fs-sm);
-    bottom: 0;
-    padding: var(--space-1);
-    color: black;
-    background-color: rgb(255, 241, 241);
-    box-shadow: 0 0 0 0.3rem var(--Invalid-color, red) inset, 0 0 1.5rem var(--Invalid-color, red) inset;
-    overflow-y: hidden;
-    white-space: nowrap;
-    z-index: 55;
-    opacity: var(--opacity-before-after, 0);
-    transition: all 0.3s ease;
-}
 
 #click-start-intro:hover,
 #click-start-intro:focus {
-    transform: scale(1.02);
-    outline: 0.3rem solid rgb(218, 165, 32);
-    box-shadow:
-        0 0 1.5rem 0 var(--Main-shadow-inset-color) inset,
-        0 0 1rem rgba(0, 255, 200, 0.15) inset,
-        0 0 1.3rem rgba(0, 255, 200, 0.45),
-        0 0 1.5rem rgba(0, 255, 200, 0.25) inset !important;
+    transform: scale(1.025);
+    outline: 0.25rem solid rgb(218, 165, 32);
 }
 
 #click-start-intro:active {
@@ -339,7 +432,6 @@ html::after {
 }
 
 @keyframes shadow-intro {
-
     0%,
     100% {
         box-shadow:
@@ -361,6 +453,8 @@ html::after {
     width: 100%;
     height: 100%;
     cursor: pointer;
+    backdrop-filter: blur(1.2rem) saturate(150%);
+    -webkit-backdrop-filter: blur(1.2rem) saturate(150%);
 }
 
 /* ---------- Part Two ---------- */
@@ -433,44 +527,43 @@ html::after {
     background-color: transparent;
 }
 
-.container :where(#adadprog) {
+:where(#adadprog) {
     position: absolute;
-    top: 15%;
-
-    font-size: var(--fs-xl);
-    max-height: 8rem;
-    height: 17%;
-    font-family: 'Cairo', 'Tajawal', sans-serif;
-    font-weight: 700;
-    max-width: 21.5rem;
-    width: 45.5%;
-    text-align: center;
-    border-radius: 1rem;
-    border: none;
-    background-color: rgb(2, 20, 36);
-    box-shadow: 0 0 3.3rem 0 rgba(0, 170, 255, 0.507) inset, 0 0 0 0.2rem whitesmoke;
-    color: #dcffe9;
-
-    animation: input 1s linear alternate infinite;
-}
-
-.container :where(#adadgoal) {
-    position: absolute;
-    top: 70%;
+    top: 3%;
+    right: 6%;
     font-size: var(--fs-lg);
     max-height: 8rem;
-    height: 17%;
+    height: 7%;
+    font-family: 'Cairo', 'Tajawal', sans-serif;
+    font-weight: 700;
+    max-width: 21.5rem;
+    width: 30%;
+    text-align: center;
+    border-radius: 0.4rem;
+    border: none;
+    background-color: rgb(2, 20, 36);
+    box-shadow: 0 0 2rem 0 rgba(0, 170, 255, 0.507) inset, 0 0 0 0.2rem whitesmoke;
+    color: #dcffe9;
+
+}
+
+:where(#adadgoal) {
+    position: absolute;
+    top: 3%;
+    left: 6%;
+    font-size: var(--fs-lg);
+    max-height: 8rem;
+    height: 7%;
     font-weight: 700;
     font-family: 'Cairo', 'Tajawal', sans-serif;
     max-width: 21.5rem;
-    width: 45.5%;
+    width: 30%;
     text-align: center;
     color: #dcffe9;
-    border-radius: 1rem;
+    border-radius: 0.4rem;
     background-color: rgb(2, 20, 36);
-    box-shadow: 0 0 3.3rem 0 rgba(0, 170, 255, 0.507) inset, 0 0 0 0.2rem whitesmoke;
+    box-shadow: 0 0 2rem 0 rgba(0, 170, 255, 0.507) inset, 0 0 0 0.2rem whitesmoke;
     border: none;
-    animation: input 1s linear alternate infinite;
 }
 
 .read-wrapper {
@@ -506,7 +599,7 @@ html::after {
     display: inline-block;
     white-space: nowrap;
     overflow-y: hidden;
-    font-size: calc(var(--fs-xxl) + 0.8rem);
+    font-size: calc(var(--fs-xxl) + 2rem);
     font-weight: 700;
     font-family: 'Lateef', 'Amiri', sans-serif;
     color: var(--Main-Text-Color, aliceblue);
@@ -523,9 +616,9 @@ html::after {
     outline: 0.4rem double rgba(218, 165, 32, 0.5);
 }
 
-.read-text:hover {
+/* .read-text:hover {
     outline: 0.4rem double goldenrod;
-}
+} */
 
 .read-text::selection {
     background-color: rgba(245, 245, 245, 0.851);
@@ -576,109 +669,90 @@ html::after {
     cursor: pointer;
 }
 
-.container #adadgoaldone {
-    position: absolute;
-    width: fit-content;
-    height: fit-content;
-    top: 7%;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 2.5rem;
-    display: none !important;
-}
 
 #reset img {
-    width: 55%;
+    width: 63.5%;
     transition: all 0.7s ease;
+    filter: drop-shadow(0 0 0.2rem rgba(255, 255, 255, 0.25));
 }
 
 #reset {
     position: absolute;
-    top: 15%;
-    right: 12%;
-    width: 5rem;
+    top: 16%;
+    right: 11%;
+    width: 4.5rem;
     aspect-ratio: 1 / 1;
     text-align: center;
     border-radius: 50%;
-    background-color: rgb(36, 2, 2);
     outline: none;
+    border: none;
     cursor: pointer;
     z-index: 10;
-    /* animation: reset 1.5s linear alternate infinite; */
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: transform 0.7s ease;
-    box-shadow: 0 0 1.5rem rgba(255, 0, 0, 0.5) inset, 0 0 0.2rem whitesmoke;
-
+    background: linear-gradient(145deg, #4a0a0a, #220202);
+    box-shadow:
+        inset 0 0.15rem 0.4rem rgba(255, 255, 255, 0.15),
+        0 0.8rem 1rem rgba(0, 0, 0, 0.5),
+        0 0 1.5rem rgba(255, 80, 80, 0.25);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-#reset:hover {
-    outline: 0.4rem goldenrod double;
-}
-
+#reset:hover,
 #reset:focus {
-    outline: 0.4rem rgba(218, 165, 32, 0.5) double;
+    background: linear-gradient(145deg, #5c0d0d, #2c0202);
+    box-shadow:
+        inset 0 0.1rem 0.2rem rgba(255, 255, 255, 0.25),
+        0 0.8rem 1.6rem rgba(0, 0, 0, 0.6),
+        0 0 2rem rgba(255, 90, 90, 0.4);
+    transform: scale(1.02);
+    filter: brightness(1.09);
+}
+
+#reset:focus-visible {
+    outline: 0.22rem dotted rgba(255, 100, 100, 0.6);
+    outline-offset: 0.2rem;
+}
+
+#reset:active {
+    background: linear-gradient(145deg, #2a0101, #5a0b0b);
+    box-shadow:
+        inset 0 0.3rem 0.6rem rgba(0, 0, 0, 0.6),
+        0 0 1rem rgba(255, 60, 60, 0.5);
+    transform: scale(0.925);
 }
 
 .reset-active {
-    transform: scale(0.85);
-    animation: reset-active 1.5s ease-in-out alternate infinite !important;
+    animation: reset-active 0.9s ease-in-out 0.1s;
 }
 
 .reset-active-2 {
-    transform: scale(1.8);
-    animation: reset-active-2 1.5s ease-in-out alternate infinite !important;
-}
-
-.reset-after-active {
-    transform: scale(0.8);
-    background-color: rgb(0, 0, 0) !important;
-    pointer-events: none;
-    box-shadow: 0 0 1.5rem rgba(87, 87, 87, 0.5) inset, 0 0 0.2rem whitesmoke !important;
-}
-
-@keyframes reset {
-
-    0%,
-    100% {
-        box-shadow:
-            0 0 0.5rem 0.1rem rgb(255, 85, 85),
-            0 0 0.8rem 0.2rem rgba(253, 19, 19, 0.684) inset,
-            0 0 0.2rem 0 rgba(0, 0, 0, 0.5) inset;
-    }
-
-    50% {
-        box-shadow:
-            0 0 0.8rem 0.1rem rgb(253, 57, 57),
-            0 0 1.5rem 0.3rem rgba(253, 19, 19, 0.684) inset,
-            0 0 3rem 0 rgba(0, 0, 0, 0.5) inset;
-    }
+    animation: reset-active-2 0.2s ease-in-out;
 }
 
 @keyframes reset-active {
-
     0%,
     100% {
+        background: linear-gradient(145deg, #5c0d0d, #2c0202);
         box-shadow:
-            0 0 0.7rem 0.1rem rgb(168, 54, 54),
-            0 0 1rem 0.5rem rgba(217, 16, 16, 0.684) inset,
-            0 0 0.2rem 0.1rem rgba(0, 0, 0, 0.5) inset,
-            0 0 0 1rem var(--Main-Background-Color, rgb(24, 32, 40)),
-            0 0 0 1.4rem rgb(104, 8, 8),
-            0 0 0 2.5rem var(--Main-Background-Color, rgb(24, 32, 40)),
-            0 0 0 2.8rem rgba(53, 36, 36, 0.8);
+            inset 0 0.1rem 0.2rem rgba(255, 255, 255, 0.25),
+            0 0 2rem rgba(255, 90, 90, 0.4),
+            0 0 0 0.6rem var(--Main-Background-Color, rgb(24, 32, 40)),
+            0 0 0 1.1rem rgba(104, 8, 8, 0.8),
+            0 0 0 1.7rem var(--Main-Background-Color, rgb(24, 32, 40)),
+            0 0 0 2.2rem rgba(104, 8, 8, 0.3);
     }
 
     50% {
+        background: linear-gradient(145deg, #2a0101, #5a0b0b);
         box-shadow:
-            0 0 1rem 0.3rem rgb(168, 54, 54),
-            0 0 1.5rem 0.6rem rgba(217, 16, 16, 0.684) inset,
-            0 0 3rem 0.3rem rgba(0, 0, 0, 0.5) inset,
-            0 0 0 1rem var(--Main-Background-Color, rgb(24, 32, 40)),
-            0 0 0 1.8rem rgb(108, 4, 4),
-            0 0 0 2.5rem var(--Main-Background-Color, rgb(24, 32, 40)),
-            0 0 0 3.2rem rgba(53, 36, 36, 0.8);
+            inset 0 0.3rem 0.6rem rgba(0, 0, 0, 0.6),
+            0 0 1rem rgba(255, 60, 60, 0.5),
+            0 0 0 0.6rem var(--Main-Background-Color, rgb(24, 32, 40)),
+            0 0 0 1.2rem rgba(104, 8, 8, 0.8),
+            0 0 0 1.7rem var(--Main-Background-Color, rgb(24, 32, 40)),
+            0 0 0 2.3rem rgba(104, 8, 8, 0.3);
     }
 }
 
@@ -686,28 +760,38 @@ html::after {
 
     0%,
     100% {
+        background: linear-gradient(145deg, #5c0d0d, #2c0202);
         box-shadow:
-            0 0 0.7rem 0.1rem rgb(168, 54, 54),
-            0 0 1rem 0.5rem rgba(217, 16, 16, 0.684) inset,
-            0 0 0.2rem 0.1rem rgba(0, 0, 0, 0.5) inset,
-            0 0 0 1rem var(--Main-Background-Color, rgb(24, 32, 40)),
-            0 0 0 1.6rem rgb(104, 8, 8),
-            0 0 0 2.4rem var(--Main-Background-Color, rgb(24, 32, 40)),
-            0 0 0 2.7rem rgb(104, 8, 8);
+            inset 0 0.1rem 0.2rem rgba(255, 255, 255, 0.25),
+            0 0 2rem rgba(255, 90, 90, 0.4),
+            0 0 0 0.6rem var(--Main-Background-Color, rgb(24, 32, 40)),
+            0 0 0 1.1rem rgb(104, 8, 8),
+            0 0 0 1.7rem var(--Main-Background-Color, rgb(24, 32, 40)),
+            0 0 0 2.2rem rgb(104, 8, 8);
     }
 
     50% {
+        background: linear-gradient(145deg, #2a0101, #5a0b0b);
         box-shadow:
-            0 0 1rem 0.5rem rgb(168, 54, 54),
-            0 0 2rem 0.8rem rgba(217, 16, 16, 0.684) inset,
-            0 0 3rem 0.3rem rgba(0, 0, 0, 0.5) inset,
-            0 0 0 1rem var(--Main-Background-Color, rgb(24, 32, 40)),
-            0 0 0 1.6rem rgb(108, 4, 4),
-            0 0 0 2.4rem var(--Main-Background-Color, rgb(24, 32, 40)),
-            0 0 0 3.2rem rgb(108, 4, 4);
+            inset 0 0.3rem 0.6rem rgba(0, 0, 0, 0.6),
+            0 0 1rem rgba(255, 60, 60, 0.5),
+            0 0 0 0.6rem var(--Main-Background-Color, rgb(24, 32, 40)),
+            0 0 0 1.2rem rgb(104, 8, 8),
+            0 0 0 1.7rem var(--Main-Background-Color, rgb(24, 32, 40)),
+            0 0 0 2.3rem rgb(104, 8, 8);
     }
 }
 
+.reset-after-active {
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+    transform: scale(0.9) !important;
+    background: linear-gradient(145deg, #525252, #000000) !important;
+    box-shadow:
+        inset 0 0.15rem 0.4rem rgba(255, 255, 255, 0.15),
+        0 0.8rem 1rem rgba(0, 0, 0, 0.732),
+        0 0 1.5rem rgba(255, 255, 255, 0.25) !important;
+}
 
 .adadgoal {
     background: radial-gradient(circle at center, #0f2d20 0%, #061510 100%) !important;
@@ -795,4 +879,3 @@ html::after {
     }
 
 }
-
