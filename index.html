@@ -14,27 +14,25 @@
 
 <body id="body">
     <div id="intro">
-        <div id="invalid-1" class="invalid">
-            <input type="text" id="intro-input-1" pattern="[A-Za-z\u0600-\u06FF]{1,1000}"
-                placeholder="أدخل عنوان الهدف!" autofocus />
-        </div>
-        <div id="invalid-2" class="invalid">
-            <input type="text" id="intro-input-2" maxlength="5" pattern="[0-9]{1,5}" placeholder="أدخل عدد التكرار!" />
-        </div>
+        <input type="text" id="intro-input-1" placeholder="أدخل عنوان الهدف!" autocomplete="off" autofocus />
+        <ul id="suggestions" class="hidden"></ul>
+        <input type="text" id="intro-input-2" maxlength="5" pattern="[0-9]{1,5}" placeholder="أدخل عدد التكرار!" />
+        <div></div>
+        <ul id="suggestions-2" class="hidden"></ul>
         <button type="submit" id="click-start-intro">أبدأ</button>
         <div id="background-intro"></div>
     </div>
 
+    <input type="text" id="adadprog" value="البداية!" disabled>
+    <input type="text" id="adadgoal" value="الهدف!" disabled>
     <div class="container" id="container">
-        <input type="text" id="adadprog" value="البداية!" disabled>
-        <input type="text" id="adadgoal" value="الهدف!" disabled>
         <div class="read-wrapper" id="read-wrapper" aria-hidden="true">
             <div id="read" class="read-text" contenteditable="true"></div>
         </div>
         <div class="read-text-in-out" id="read-text-in-out"></div>
-        <div id="adadgoaldone">✅</div>
+        <div id="adadgoaldone"></div>
     </div>
-    <div id="reset" tabindex="0"><img src="./assets/imags/agin.png" alt="Reset"></div>
+    <button id="reset" tabindex="0"><img src="./assets/imags/agin.png" alt="Reset"></button>
     <div id="background-2" class="background-click" tabindex="0"></div>
     <script>
         let intro = document.getElementById('intro');
@@ -74,96 +72,225 @@
             return out;
         }
 
+        intro_input_1.addEventListener('input', () => {
+            intro_input_1.classList.remove('intro-intro-inputs-invalid');
+        });
+
+        const options = ["سبحان الله", "الحمدلله", "الله أكبر", "لا إله إلا الله", "سبحان الله وبحمده", "لاحول ولا قوة إلا بالله", "اللهم صل وسلم على نبينا محمد"];
+        const list = document.getElementById("suggestions");
+
+        intro_input_1.addEventListener("input", () => {
+            const value = intro_input_1.value.toLowerCase();
+            list.innerHTML = "";
+
+            if (!value) {
+                list.classList.add("hidden");
+                return;
+            }
+
+            const matches = options.filter(option => option.toLowerCase().includes(value));
+
+            if (matches.length === 0) {
+                list.classList.add("hidden");
+                return;
+            }
+
+            matches.forEach(option => {
+                const li = document.createElement("li");
+                li.textContent = option;
+                li.addEventListener("click", () => {
+                    intro_input_1.value = option;
+                    list.classList.add("hidden");
+                });
+                list.appendChild(li);
+            });
+
+            list.classList.remove("hidden");
+        });
+
+        document.addEventListener("click", e => {
+            if (!list.contains(e.target) && e.target !== intro_input_1) {
+                list.classList.add("hidden");
+            }
+        });
+
+        const options_2 = ["10", "33", "70", "100", "250", "500", "1000"];
+        const list_2 = document.getElementById("suggestions-2");
+
+        intro_input_2.addEventListener("input", () => {
+            const value_2 = intro_input_2.value.toLowerCase();
+            list_2.innerHTML = "";
+
+            if (!value_2) {
+                list_2.classList.add("hidden");
+                return;
+            }
+
+            const matches_2 = options_2.filter(option_2 => option_2.toLowerCase().includes(value_2));
+
+            if (matches_2.length === 0) {
+                list_2.classList.add("hidden");
+                return;
+            }
+
+            matches_2.forEach(option_2 => {
+                const li_2 = document.createElement("li");
+                li_2.textContent = option_2;
+                li_2.addEventListener("click", () => {
+                    intro_input_2.value = option_2;
+                    list_2.classList.add("hidden");
+                });
+                list_2.appendChild(li_2);
+            });
+
+            list_2.classList.remove("hidden");
+        });
+
+        document.addEventListener("click", e_2 => {
+            if (!list_2.contains(e_2.target) && e_2.target !== intro_input_2) {
+                list_2.classList.add("hidden");
+            }
+        });
+
+        intro_input_2.addEventListener('input', () => {
+            intro_input_2.classList.remove('intro-intro-inputs-invalid');
+        });
+
         click_start_intro.onclick = function () {
             intro_input_1_s = String(intro_input_1.value).trim();
             intro_input_2_s = String(intro_input_2.value).trim();
 
-            let norm_1 = normalizeEasternArabixDigits(intro_input_1_s);
             let norm_2 = normalizeEasternArabixDigits(intro_input_2_s);
-
-            const hasDigit_1 = /[0-9]/.test(norm_1);
-            const hasAlpha_1 = /[A-Za-z\u0600-\u06FF]/.test(norm_1);
-            const hasignore_1 = /[,.\/?\\{}\[\]:"'<>|!@#$%^&*()_\-+=~`]/.test(norm_1);
 
             const hasDigit_2 = /[0-9]/.test(norm_2);
             const hasAlpha_2 = /[A-Za-z\u0600-\u06FF]/.test(norm_2);
             const hasignore_2 = /[,.\/?\\{}\[\]:"'<>|!@#$%^&*()_\-+=~`]/.test(norm_2);
 
             if (intro_input_1_s === '' && intro_input_2_s === '') {
-                intro_input_1.style.outline = '0.2rem solid red';
-                intro_input_2.style.outline = '0.2rem solid red' ;
+                intro_input_1.classList.add('intro-intro-inputs-invalid');
+                intro_input_2.classList.add('intro-intro-inputs-invalid');
 
-                document.querySelector('html').style.setProperty('--after-content-button', '"الحقول فارغة!؛ الرجاء ملؤها."');
-                document.querySelector('html').style.setProperty('--opacity-before-after', '1');
-                document.querySelector('html').classList.add('after-rise');
-                
+
+                document.querySelector('html').style.setProperty('--after-content-click-start', '"الحقول فارغة!؛ الرجاء ملؤها."');
+
+                setTimeout(() => {
+                    document.querySelector('html').style.setProperty('--opacity-click-start-after', '1');
+                    document.querySelector('html').style.setProperty('--after-content-click-start-translate', 'translateY(0)');
+                    setTimeout(() => {
+                        document.querySelector('html').style.removeProperty('--opacity-click-start-after');
+                        document.querySelector('html').style.removeProperty('--after-content-click-start-translate');
+                    }, 3000)
+                }, 200)
+
                 return;
             }
 
-            else if ((!hasAlpha_1 && hasDigit_1 && !hasDigit_2 && hasAlpha_2) || (hasignore_1 & hasignore_2)) {
-                intro_input_1.style.outline = '0.2rem solid red';
-                intro_input_2.style.outline = '0.2rem solid red';
+            else if (intro_input_1_s === '' && ((!hasDigit_2 && hasAlpha_2) || hasAlpha_2 || hasignore_2)) {
+                intro_input_1.classList.add('intro-intro-inputs-invalid');
+                intro_input_2.classList.add('intro-intro-inputs-invalid');
 
-                document.querySelector('html').style.setProperty('--after-content-button', '"الرجاء إدخال الصيغ الصحيحة في الحقول."');
-                document.querySelector('html').style.setProperty('--opacity-before-after', '1');
-                document.querySelector('html').classList.add('after-rise');
+                document.querySelector('html').style.setProperty('--after-content-click-start', '"الحقل الأول فارغ!؛ الرجاء ملؤه."');
+
+                document.querySelector('html').style.setProperty('--before-content-click-start', '"الرجاء إدخال الصيغة الصحيحة في الحقل الثاني."');
+                document.querySelector('html').style.setProperty('--fs-before-syn', '1.3rem');
+
+                setTimeout(() => {
+                    document.querySelector('html').style.setProperty('--opacity-click-start-after', '1');
+                    document.querySelector('html').style.setProperty('--after-content-click-start-translate', 'translateY(-105%)');
+                    document.querySelector('html').style.setProperty('--opacity-click-start-before', '1');
+                    document.querySelector('html').style.setProperty('--before-content-click-start-translate', 'translateY(0)');
+
+                    setTimeout(() => {
+                        document.querySelector('html').style.removeProperty('--opacity-click-start-after');
+                        document.querySelector('html').style.removeProperty('--after-content-click-start-translate');
+                        document.querySelector('html').style.removeProperty('--opacity-click-start-before');
+                        document.querySelector('html').style.removeProperty('--before-content-click-start-translate');
+                    }, 3000)
+
+                }, 200)
+            }
+
+            else if (intro_input_1_s === '' && hasDigit_2 && !hasAlpha_2 && !hasignore_2) {
+                intro_input_1.classList.add('intro-intro-inputs-invalid');
+                intro_input_2.classList.remove('intro-intro-inputs-invalid');
+
+                document.querySelector('html').style.setProperty('--after-content-click-start', '"الحقل الأول فارغ!؛ الرجاء ملؤه."');
+
+                setTimeout(() => {
+                    document.querySelector('html').style.setProperty('--opacity-click-start-after', '1');
+                    document.querySelector('html').style.setProperty('--after-content-click-start-translate', 'translateY(0)');
+
+                    setTimeout(() => {
+                        document.querySelector('html').style.removeProperty('--opacity-click-start-after');
+                        document.querySelector('html').style.removeProperty('--after-content-click-start-translate');
+                    }, 3000)
+
+                }, 200)
+            }
+
+            else if (intro_input_1_s !== '' && intro_input_2_s === '') {
+                intro_input_1.classList.remove('intro-intro-inputs-invalid');
+                intro_input_2.classList.add('intro-intro-inputs-invalid');
+
+                document.querySelector('html').style.setProperty('--before-content-click-start', '"الحقل الثاني فارغ!؛ الرجاء ملؤه."');
+                document.querySelector('html').style.setProperty('--fs-before-syn', '1.3rem');
+
+                setTimeout(() => {
+                    document.querySelector('html').style.setProperty('--opacity-click-start-before', '1');
+                    document.querySelector('html').style.setProperty('--before-content-click-start-translate', 'translateY(0)');
+
+                    setTimeout(() => {
+                        document.querySelector('html').style.removeProperty('--opacity-click-start-before');
+                        document.querySelector('html').style.removeProperty('--before-content-click-start-translate');
+                    }, 3000)
+
+                }, 200)
+            }
+
+            else if (intro_input_1_s !== '' && ((!hasDigit_2 && hasAlpha_2) || hasAlpha_2 || hasignore_2)) {
+                intro_input_1.classList.remove('intro-intro-inputs-invalid');
+                intro_input_2.classList.add('intro-intro-inputs-invalid');
+
+                document.querySelector('html').style.setProperty('--before-content-click-start', '"الرجاء إدخال الصيغة الصحيحة في الحقل الثاني."');
+                document.querySelector('html').style.setProperty('--fs-before-syn', '1.3rem');
+
+                setTimeout(() => {
+                    document.querySelector('html').style.setProperty('--opacity-click-start-before', '1');
+                    document.querySelector('html').style.setProperty('--before-content-click-start-translate', 'translateY(0)');
+
+                    setTimeout(() => {
+                        document.querySelector('html').style.removeProperty('--opacity-click-start-before');
+                        document.querySelector('html').style.removeProperty('--before-content-click-start-translate');
+                    }, 3000)
+
+                }, 200)
+            }
+
+            else if (intro_input_1_s !== '' && hasDigit_2 && !hasAlpha_2 && !hasignore_2) {
+                intro_input_1.classList.remove('intro-intro-inputs-invalid');
+                intro_input_2.classList.remove('intro-intro-inputs-invalid');
+
+                document.querySelector('html').style.setProperty('--before-content-click-start', '"تم بنجاح."')
+                document.querySelector('html').style.setProperty('--Invalid-background-color', '#051b11');
+                document.querySelector('html').style.setProperty('--Invalid-text-color', '#75b798');
+                document.querySelector('html').style.setProperty('--Invalid-border-color', '#0f5132');
                 
+                setTimeout(() => {
+                    document.querySelector('html').style.setProperty('--opacity-click-start-before', '1');
+                    document.querySelector('html').style.setProperty('--before-content-click-start-translate', 'translateY(0)');
+                    
+                    setTimeout(() => {
+                        document.querySelector('html').style.removeProperty('--opacity-click-start-before');
+                        document.querySelector('html').style.removeProperty('--before-content-click-start-translate');
+                    }, 2000)
+                    
+                }, 200)
                 
-                return;
-            }
-
-            if (intro_input_1_s === '') {
-                intro_input_1.style.outline = '0.2rem solid red';
-
-                document.querySelector('html').style.setProperty('--after-content-button', '"الحقل الأول فارغ!؛ الرجاء ملؤه."');
-                document.querySelector('html').style.setProperty('--opacity-before-after', '1');
-                document.querySelector('html').classList.add('after-rise');
-            }
-            
-            else if ((!hasAlpha_1 && hasDigit_1) || hasDigit_1 || hasignore_1) {
-                intro_input_1.style.outline = '0.2rem solid red';
-
-                document.querySelector('html').style.setProperty('--after-content-button', '"الرجاء إدخال الصيغة الصحيحة في الحقل الأول."');
-                document.querySelector('html').style.setProperty('--opacity-before-after', '1');
-                document.querySelector('html').classList.add('after-rise');
-            }
-            
-            
-
-            if (intro_input_2_s === '') {
-                intro_input_2.style.outline = '0.2rem solid red';
-
-                document.querySelector('html').style.setProperty('--after-content-button', '"الحقل الثاني فارغ!؛ الرجاء ملؤه."');
-                document.querySelector('html').style.setProperty('--opacity-before-after', '1');
-                document.querySelector('html').classList.add('after-rise');
-            }
-            
-            else if ((!hasDigit_2 && hasAlpha_2) || hasAlpha_2 || hasignore_2) {
-                intro_input_2.style.outline = '0.2rem solid red';
-
-                document.querySelector('html').style.setProperty('--after-content-button', '"الرجاء إدخال الصيغة الصحيحة في الحقل الثاني."');
-                document.querySelector('html').style.setProperty('--opacity-before-after', '1');
-                document.querySelector('html').classList.add('after-rise');
-            }
-
-
-            if (hasAlpha_1 && !hasDigit_1 && !hasignore_1) {
-                document.getElementById('invalid-1').style.setProperty('--opacity-before-after', '0');
-                intro_input_1.style.outline = 'none';
-            }
-
-
-            if (hasDigit_2 && !hasAlpha_2 && !hasignore_2) {
-                document.getElementById('invalid-2').style.setProperty('--opacity-before-after', '0');
-                intro_input_2.style.outline = 'none';
-            }
-
-            if (hasAlpha_1 && !hasDigit_1 && !hasignore_1 && hasDigit_2 && !hasAlpha_2 && !hasignore_2) {
-                document.getElementById('invalid-1').style.setProperty('--opacity-before-after', '0');
-                intro_input_1.style.outline = 'none';
-
-                document.getElementById('invalid-2').style.setProperty('--opacity-before-after', '0');
-                intro_input_2.style.outline = 'none';
+                setTimeout(() => {
+                    document.querySelector('html').style.removeProperty('--Invalid-background-color');
+                    document.querySelector('html').style.removeProperty('--Invalid-text-color');
+                    document.querySelector('html').style.removeProperty('--Invalid-border-color');
+                }, 3000)
 
                 document.getElementById('read').textContent = intro_input_1.value;
 
@@ -172,6 +299,7 @@
                 adadgoal.value = intro_input_2.value;
 
                 intro.style.display = "none";
+
                 return;
             }
             return;
@@ -181,7 +309,9 @@
             read_wrapper.scrollTo({ left: 0, behavior: 'smooth' });
             document.getElementById('container').classList.add('container-active');
             document.getElementById('body').classList.add('background-click-body-active');
-
+            document.getElementById("adadprog").style.fontSize = '2.5rem';
+            adadgoal.style.fontSize = '2.5rem';
+            
             resetTimer = setTimeout(() => {
                 document.getElementById('container').classList.remove('container-active');
             }, 450)
@@ -190,10 +320,11 @@
                 num++;
                 document.getElementById("adadprog").value = num;
             }
-
+            
             else {
+                document.getElementById("adadprog").style.fontSize = '1.9rem';
+                adadgoal.style.fontSize = '1.9rem';
                 document.getElementById("adadprog").value = "تم!";
-                document.getElementById("adadprog").style.fontSize = '2.5rem';
                 document.getElementById('adadprog').classList.add('adadgoal');
 
                 document.getElementById("body").style.backgroundColor = '#0b1f16';
@@ -221,14 +352,12 @@
 
         reset.onclick = function () {
             reset_test++;
-            document.getElementById('reset').classList.add('reset-active');
-
             clearTimeout(resetTimer);
+            document.getElementById('reset').classList.add('reset-active');
 
             if (reset_test === 2) {
                 num = 0;
                 document.getElementById("adadprog").value = "البداية!";
-                document.getElementById("adadprog").style.fontSize = '2.5rem';
                 document.getElementById("adadprog").classList.remove('adadgoal');
 
                 adadgoal.classList.remove('adadgoal');
@@ -243,32 +372,33 @@
 
                 document.getElementById('read').style.setProperty('--Main-Text-Shadow-Color', '#1976c290');
 
+                document.getElementById('reset').classList.remove('reset-active');
+
                 document.getElementById('reset').classList.add('reset-active-2');
 
                 resetTimer = setTimeout(() => {
                     document.getElementById('reset').classList.remove('reset-active', 'reset-active-2');
-                }, 100)
-                
+                }, 150)
+
                 document.getElementById('reset').style.setProperty('--Main-Background-Color', 'rgb(24, 32, 40)');
-                
+
+                reset_test = 0;
+
                 setTimeout(() => {
                     document.getElementById('reset').classList.add('reset-after-active');
-
+        
                     setTimeout(() => {
                         document.getElementById('reset').classList.remove('reset-after-active');
-                    }, 1500);
-
-                }, 500);
-                
-                
-                reset_test = 0;
+                    }, 1600);
+        
+                }, 250);
             }
 
             else {
                 resetTimer = setTimeout(() => {
                     reset_test = 0;
                     document.getElementById('reset').classList.remove('reset-active');
-                }, 1000)
+                }, 1200)
             }
         };
 
@@ -316,6 +446,3 @@
 </body>
 
 </html>
-
-
-
