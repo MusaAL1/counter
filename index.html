@@ -14,12 +14,20 @@
 
 <body id="body">
     <div id="intro">
-        <input type="text" id="intro-input-1" placeholder="أدخل عنوان الهدف!" autocomplete="off" autofocus />
+        <input type="text" id="intro-input-1" title="أدخل عنوان الهدف!" placeholder="أدخل عنوان الهدف!"
+            autocomplete="off" autofocus />
         <ul id="suggestions" class="hidden"></ul>
-        <input type="text" id="intro-input-2" maxlength="5" pattern="[0-9]{1,5}" placeholder="أدخل عدد التكرار!" />
+        <input type="text" id="intro-input-2" maxlength="5" title="أدخل عدد التكرار!"
+            pattern="^([1-9][0-9]{0,4}|[\u0661-\u0669][\u0660-\u0669]{0,4})$" placeholder="أدخل عدد التكرار!"
+            autocomplete="off" />
+        <!-- The Div below this comment is the waring massage(::before, ::after) when enter invalid values -->
         <div></div>
         <ul id="suggestions-2" class="hidden"></ul>
         <button type="submit" id="click-start-intro">أبدأ</button>
+        <div class="click-start-intro-background"></div>
+        <div class="esc" id="close" title="Close">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><path fill="#ffffff" d="M183.1 137.4C170.6 124.9 150.3 124.9 137.8 137.4C125.3 149.9 125.3 170.2 137.8 182.7L275.2 320L137.9 457.4C125.4 469.9 125.4 490.2 137.9 502.7C150.4 515.2 170.7 515.2 183.2 502.7L320.5 365.3L457.9 502.6C470.4 515.1 490.7 515.1 503.2 502.6C515.7 490.1 515.7 469.8 503.2 457.3L365.8 320L503.1 182.6C515.6 170.1 515.6 149.8 503.1 137.3C490.6 124.8 470.3 124.8 457.8 137.3L320.5 274.7L183.1 137.4z"/></svg>
+        </div>
         <div id="background-intro"></div>
     </div>
 
@@ -37,15 +45,16 @@
     <script>
         let intro = document.getElementById('intro');
         let background_intro = document.getElementById('background-intro');
-        let intro_input_1 = document.getElementById('intro-input-1');
-        let intro_input_2 = document.getElementById('intro-input-2');
+        let close = document.getElementById('close');
+        const intro_input_1 = document.getElementById('intro-input-1');
+        const intro_input_2 = document.getElementById('intro-input-2');
         let click_start_intro = document.getElementById('click-start-intro');
 
         var input1 = "";
         var input2 = 100;
         var click = document.getElementById('click');
-        var num = document.getElementById('adadprog');
-        num = 0;
+        var adadprog = document.getElementById('adadprog');
+        let num = 0;
         var adadgoal = document.getElementById('adadgoal');
         let reset = document.getElementById('reset');
 
@@ -56,27 +65,23 @@
 
         background_intro.onclick = function () {
             document.getElementById('read').value = input1;
-            num.value = input2;
             adadgoal.value = input2;
             intro.style.display = "none";
         }
 
-        function normalizeEasternArabixDigits(s) {
-            const eastern = '٠١٢٣٤٥٦٧٨٩';
-            const western = '0123456789';
-            let out = '';
-            for (let ch of s) {
-                const idx = eastern.indexOf(ch);
-                out += (idx !== -1) ? western[idx] : ch;
-            }
-            return out;
+        close.onclick = function () {
+            setTimeout(() => {
+                document.getElementById('read').value = input1;
+                adadgoal.value = input2;
+                intro.style.display = "none";
+            }, 650)
         }
 
         intro_input_1.addEventListener('input', () => {
             intro_input_1.classList.remove('intro-intro-inputs-invalid');
         });
 
-        const options = ["سبحان الله", "الحمدلله", "الله أكبر", "لا إله إلا الله", "سبحان الله وبحمده", "لاحول ولا قوة إلا بالله", "اللهم صل وسلم على نبينا محمد"];
+        const options = ["سبحان الله", "الحمد لله", "لا إله إلا الله", "الله أكبر", "سبحان الله وبحمده", "أستغفر الله وأتوب إليه", "لاحول ولا قوة إلا بالله", "لا إله إلا الله وحده لا شريك له، له الملك وله الحمد، وهو على كل شيء قدير", "اللهم صل وسلم على نبينا محمد"];
         const list = document.getElementById("suggestions");
 
         intro_input_1.addEventListener("input", () => {
@@ -100,7 +105,9 @@
                 li.textContent = option;
                 li.addEventListener("click", () => {
                     intro_input_1.value = option;
-                    list.classList.add("hidden");
+                    setTimeout(() => {
+                        list.classList.add("hidden");
+                    }, 650)
                 });
                 list.appendChild(li);
             });
@@ -114,7 +121,7 @@
             }
         });
 
-        const options_2 = ["10", "33", "70", "100", "250", "500", "1000"];
+        const options_2 = ["10", "١٠", "33", "٣٣", "70", "٧٠", "100", "١٠٠", "250", "٢٥٠", "500", "٥٠٠", "1000", "١٠٠٠", "2000", "٢٠٠٠", "2500", "٢٥٠٠", "3000", "٣٠٠٠", "4500", "٤٥٠٠", "5000", "٥٠٠٠", "10000", "١٠٠٠٠"];
         const list_2 = document.getElementById("suggestions-2");
 
         intro_input_2.addEventListener("input", () => {
@@ -138,7 +145,9 @@
                 li_2.textContent = option_2;
                 li_2.addEventListener("click", () => {
                     intro_input_2.value = option_2;
-                    list_2.classList.add("hidden");
+                    setTimeout(() => {
+                        list_2.classList.add("hidden");
+                    }, 650)
                 });
                 list_2.appendChild(li_2);
             });
@@ -156,15 +165,19 @@
             intro_input_2.classList.remove('intro-intro-inputs-invalid');
         });
 
+        function convertToEnglishNumbers(value) {
+            return value.replace(/[٠-٩]/g, d => d.charCodeAt(0) - 0x0660);
+        }
+
+        function convertToArabicNumbers(value) {
+            return value.toString().replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[d]);
+        }
+
         click_start_intro.onclick = function () {
             intro_input_1_s = String(intro_input_1.value).trim();
             intro_input_2_s = String(intro_input_2.value).trim();
 
-            let norm_2 = normalizeEasternArabixDigits(intro_input_2_s);
-
-            const hasDigit_2 = /[0-9]/.test(norm_2);
-            const hasAlpha_2 = /[A-Za-z\u0600-\u06FF]/.test(norm_2);
-            const hasignore_2 = /[,.\/?\\{}\[\]:"'<>|!@#$%^&*()_\-+=~`]/.test(norm_2);
+            click_start_intro.classList.add('click-start-intro-clicked');
 
             if (intro_input_1_s === '' && intro_input_2_s === '') {
                 intro_input_1.classList.add('intro-intro-inputs-invalid');
@@ -175,42 +188,45 @@
 
                 setTimeout(() => {
                     document.querySelector('html').style.setProperty('--opacity-click-start-after', '1');
-                    document.querySelector('html').style.setProperty('--after-content-click-start-translate', 'translateY(0)');
+                    document.querySelector('html').style.setProperty('--after-content-click-start-translate', 'translate(-50%, 0)');
                     setTimeout(() => {
                         document.querySelector('html').style.removeProperty('--opacity-click-start-after');
                         document.querySelector('html').style.removeProperty('--after-content-click-start-translate');
+                        click_start_intro.classList.remove('click-start-intro-clicked');
                     }, 3000)
+
                 }, 200)
 
                 return;
             }
 
-            else if (intro_input_1_s === '' && ((!hasDigit_2 && hasAlpha_2) || hasAlpha_2 || hasignore_2)) {
+            else if (intro_input_1_s === '' && intro_input_2.validity.patternMismatch) {
                 intro_input_1.classList.add('intro-intro-inputs-invalid');
                 intro_input_2.classList.add('intro-intro-inputs-invalid');
 
                 document.querySelector('html').style.setProperty('--after-content-click-start', '"الحقل الأول فارغ!؛ الرجاء ملؤه."');
 
                 document.querySelector('html').style.setProperty('--before-content-click-start', '"الرجاء إدخال الصيغة الصحيحة في الحقل الثاني."');
-                document.querySelector('html').style.setProperty('--fs-before-syn', '1.3rem');
+                document.querySelector('html').style.setProperty('--fs-before-syn', '1.15rem');
 
                 setTimeout(() => {
                     document.querySelector('html').style.setProperty('--opacity-click-start-after', '1');
-                    document.querySelector('html').style.setProperty('--after-content-click-start-translate', 'translateY(-105%)');
+                    document.querySelector('html').style.setProperty('--after-content-click-start-translate', 'translate(-50%, -105%)');
                     document.querySelector('html').style.setProperty('--opacity-click-start-before', '1');
-                    document.querySelector('html').style.setProperty('--before-content-click-start-translate', 'translateY(0)');
+                    document.querySelector('html').style.setProperty('--before-content-click-start-translate', 'translate(-50%, 0)');
 
                     setTimeout(() => {
                         document.querySelector('html').style.removeProperty('--opacity-click-start-after');
                         document.querySelector('html').style.removeProperty('--after-content-click-start-translate');
                         document.querySelector('html').style.removeProperty('--opacity-click-start-before');
                         document.querySelector('html').style.removeProperty('--before-content-click-start-translate');
+                        click_start_intro.classList.remove('click-start-intro-clicked');
                     }, 3000)
 
                 }, 200)
             }
 
-            else if (intro_input_1_s === '' && hasDigit_2 && !hasAlpha_2 && !hasignore_2) {
+            else if (intro_input_1_s === '' && !intro_input_2.validity.patternMismatch) {
                 intro_input_1.classList.add('intro-intro-inputs-invalid');
                 intro_input_2.classList.remove('intro-intro-inputs-invalid');
 
@@ -218,11 +234,12 @@
 
                 setTimeout(() => {
                     document.querySelector('html').style.setProperty('--opacity-click-start-after', '1');
-                    document.querySelector('html').style.setProperty('--after-content-click-start-translate', 'translateY(0)');
+                    document.querySelector('html').style.setProperty('--after-content-click-start-translate', 'translate(-50%, 0)');
 
                     setTimeout(() => {
                         document.querySelector('html').style.removeProperty('--opacity-click-start-after');
                         document.querySelector('html').style.removeProperty('--after-content-click-start-translate');
+                        click_start_intro.classList.remove('click-start-intro-clicked');
                     }, 3000)
 
                 }, 200)
@@ -237,55 +254,59 @@
 
                 setTimeout(() => {
                     document.querySelector('html').style.setProperty('--opacity-click-start-before', '1');
-                    document.querySelector('html').style.setProperty('--before-content-click-start-translate', 'translateY(0)');
+                    document.querySelector('html').style.setProperty('--before-content-click-start-translate', 'translate(-50%, 0)');
 
                     setTimeout(() => {
                         document.querySelector('html').style.removeProperty('--opacity-click-start-before');
                         document.querySelector('html').style.removeProperty('--before-content-click-start-translate');
+                        click_start_intro.classList.remove('click-start-intro-clicked');
                     }, 3000)
 
                 }, 200)
             }
 
-            else if (intro_input_1_s !== '' && ((!hasDigit_2 && hasAlpha_2) || hasAlpha_2 || hasignore_2)) {
+            else if (intro_input_1_s !== '' && intro_input_2.validity.patternMismatch) {
                 intro_input_1.classList.remove('intro-intro-inputs-invalid');
                 intro_input_2.classList.add('intro-intro-inputs-invalid');
 
                 document.querySelector('html').style.setProperty('--before-content-click-start', '"الرجاء إدخال الصيغة الصحيحة في الحقل الثاني."');
-                document.querySelector('html').style.setProperty('--fs-before-syn', '1.3rem');
+                document.querySelector('html').style.setProperty('--fs-before-syn', '1.15rem');
 
                 setTimeout(() => {
                     document.querySelector('html').style.setProperty('--opacity-click-start-before', '1');
-                    document.querySelector('html').style.setProperty('--before-content-click-start-translate', 'translateY(0)');
+                    document.querySelector('html').style.setProperty('--before-content-click-start-translate', 'translate(-50%, 0)');
 
                     setTimeout(() => {
                         document.querySelector('html').style.removeProperty('--opacity-click-start-before');
                         document.querySelector('html').style.removeProperty('--before-content-click-start-translate');
+                        click_start_intro.classList.remove('click-start-intro-clicked');
                     }, 3000)
 
                 }, 200)
             }
 
-            else if (intro_input_1_s !== '' && hasDigit_2 && !hasAlpha_2 && !hasignore_2) {
+            else if (intro_input_1_s !== '' & !intro_input_2.validity.patternMismatch) {
                 intro_input_1.classList.remove('intro-intro-inputs-invalid');
                 intro_input_2.classList.remove('intro-intro-inputs-invalid');
 
                 document.querySelector('html').style.setProperty('--before-content-click-start', '"تم بنجاح."')
+                document.querySelector('html').style.setProperty('--fs-before-syn', '1.6rem');
                 document.querySelector('html').style.setProperty('--Invalid-background-color', '#051b11');
                 document.querySelector('html').style.setProperty('--Invalid-text-color', '#75b798');
                 document.querySelector('html').style.setProperty('--Invalid-border-color', '#0f5132');
-                
+
                 setTimeout(() => {
                     document.querySelector('html').style.setProperty('--opacity-click-start-before', '1');
-                    document.querySelector('html').style.setProperty('--before-content-click-start-translate', 'translateY(0)');
-                    
+                    document.querySelector('html').style.setProperty('--before-content-click-start-translate', 'translate(-50%, 0)');
+
                     setTimeout(() => {
                         document.querySelector('html').style.removeProperty('--opacity-click-start-before');
                         document.querySelector('html').style.removeProperty('--before-content-click-start-translate');
+                        click_start_intro.classList.remove('click-start-intro-clicked');
                     }, 2000)
-                    
+
                 }, 200)
-                
+
                 setTimeout(() => {
                     document.querySelector('html').style.removeProperty('--Invalid-background-color');
                     document.querySelector('html').style.removeProperty('--Invalid-text-color');
@@ -294,14 +315,16 @@
 
                 document.getElementById('read').textContent = intro_input_1.value;
 
-                input2 = intro_input_2.value;
-                num.value = intro_input_2.value;
+                let intro_input_2_english_value = convertToEnglishNumbers(intro_input_2.value);
+
+                input2 = intro_input_2_english_value;
                 adadgoal.value = intro_input_2.value;
 
                 intro.style.display = "none";
 
                 return;
             }
+
             return;
         };
 
@@ -311,19 +334,24 @@
             document.getElementById('body').classList.add('background-click-body-active');
             document.getElementById("adadprog").style.fontSize = '2.5rem';
             adadgoal.style.fontSize = '2.5rem';
-            
+
             resetTimer = setTimeout(() => {
                 document.getElementById('container').classList.remove('container-active');
             }, 450)
 
             if ((num + 1) < input2) {
                 num++;
-                document.getElementById("adadprog").value = num;
+                if (/[٠-٩]/.test(intro_input_2.value)) {
+                    adadprog.value = convertToArabicNumbers(num);
+                }
+                else {
+                    adadprog.value = num;
+                }
             }
-            
+
             else {
                 document.getElementById("adadprog").style.fontSize = '1.9rem';
-                adadgoal.style.fontSize = '1.9rem';
+                //adadgoal.style.fontSize = '1.9rem';
                 document.getElementById("adadprog").value = "تم!";
                 document.getElementById('adadprog').classList.add('adadgoal');
 
@@ -386,11 +414,11 @@
 
                 setTimeout(() => {
                     document.getElementById('reset').classList.add('reset-after-active');
-        
+
                     setTimeout(() => {
                         document.getElementById('reset').classList.remove('reset-after-active');
                     }, 1600);
-        
+
                 }, 250);
             }
 
