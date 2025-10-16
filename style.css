@@ -21,8 +21,8 @@
     --after-content-click-start: ;
 
     /* Translate */
-    --before-content-click-start-translate: translateY(100%);
-    --after-content-click-start-translate: translateY(100%);
+    --before-content-click-start-translate: translate(-50%, 100%);
+    --after-content-click-start-translate: translate(-50%, 100%);
 
     /* Opacity */
     --opacity-click-start-before: 0;
@@ -47,7 +47,8 @@
     /* 32px */
 
     /* Particular Font size */
-    --fs-before-syn: var(--fs-sm);
+    --fs-before-syn: var(--fs-md);
+
     /*  Spacing  */
     --space-1: 0.8rem;
     /* 8px */
@@ -69,9 +70,7 @@ html {
 html::after,
 html::before {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100vw;
+    width: 90vw;
     min-height: 6rem;
     display: flex;
     align-items: center;
@@ -81,9 +80,10 @@ html::before {
     font-family: 'Cairo', 'Tajawal', serif;
     font-weight: 900;
     text-align: center;
-    right: 0;
+    left: 50%;
+    bottom: 3%;
+    border-radius: 2rem;
     font-size: var(--fs-sm);
-    bottom: 0;
     padding: var(--space-1);
     color: var(--Invalid-text-color);
     background-color: var(--Invalid-background-color);
@@ -97,7 +97,7 @@ html::before {
 }
 
 html::before {
-    font-size: var(--fs-before-syn, 1.4rem);
+    font-size: var(--fs-before-syn, 1.6rem);
     content: var(--before-content-click-start);
     transform: var(--before-content-click-start-translate, translateY(100%));
     opacity: var(--opacity-click-start-before, 0);
@@ -207,7 +207,9 @@ body {
     box-sizing: border-box;
     overflow: hidden;
     z-index: 50;
-    background-color: rgba(13, 18, 22, 0.9);
+    background-color: rgba(13, 18, 22, 0.46);
+    backdrop-filter: blur(2rem) saturate(150%);
+    -webkit-backdrop-filter: blur(2rem) saturate(150%);
     transition: all 0.3s ease;
     /* display: none; */
 }
@@ -219,7 +221,7 @@ body {
     width: 80vw;
     max-width: 28rem;
     height: 6rem;
-    padding: 0.8rem var(--space-2);
+    padding: 3.5rem var(--space-2);
     font-size: var(--fs-xl);
     font-family: 'Tajawal', 'Cairo', sans-serif;
     font-weight: 400;
@@ -236,7 +238,7 @@ body {
 #intro :is(#intro-input-1, #intro-input-2):hover,
 #intro :is(#intro-input-1, #intro-input-2):focus {
     transform: scale(1.025);
-    outline: 0.25rem solid rgba(255, 166, 0, 0.7);
+    outline: 0.25rem solid rgb(218, 165, 32);
 }
 
 #intro #intro-input-2:invalid {
@@ -263,9 +265,9 @@ body {
 #intro-input-2+div::before {
     content: "";
     position: absolute;
-    width: 1.3rem;
-    height: 1.3rem;
-    top: 126%;
+    width: 1.15rem;
+    height: 1.15rem;
+    top: 136%;
     right: 10%;
     background-color: var(--Invalid-background-color, #58151c);
     transform: translateX(100%) rotate(45deg);
@@ -273,13 +275,13 @@ body {
     border-bottom-color: transparent;
     border-right-color: transparent;
     opacity: 1;
-    z-index: 51;
+    z-index: 3;
     transition: all 0.3s ease;
 }
 
 
 #intro-input-2+div::after {
-    content: "الرجاء إدخال صيغة صحيحة (0-9).";
+    content: "الرجاء إدخال صيغة صحيحة (0< ,9-0).";
     position: absolute;
     height: fit-content;
     width: fit-content;
@@ -289,7 +291,7 @@ body {
     right: 5%;
     transform: translateX(20%);
     font-size: var(--fs-xxs);
-    top: 137%;
+    top: 145%;
     padding: var(--space-1);
     border-radius: 0.4rem;
     color: black;
@@ -299,9 +301,9 @@ body {
     overflow-x: auto;
     overflow-y: hidden;
     white-space: nowrap;
-    z-index: 50;
+    z-index: 2;
     opacity: 1;
-    transition: all 0.5s ease;
+    transition: all 0.4s ease;
 }
 
 #intro-input-2:invalid+div::after {
@@ -315,31 +317,33 @@ body {
 }
 
 #intro-input-2:valid+div::after {
+    z-index: 0;
     opacity: 0;
 }
 
 #intro-input-2:valid+div::before {
+    z-index: 0;
     opacity: 0;
 }
 
 :is(#suggestions, #suggestions-2) {
     position: absolute;
     background: rgba(24, 32, 40, 0.15);
-    backdrop-filter: blur(2rem) saturate(150%);
-    -webkit-backdrop-filter: blur(2rem) saturate(150%);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    border-radius: 1.6rem;
+    backdrop-filter: blur(1rem) saturate(150%);
+    -webkit-backdrop-filter: blur(1rem) saturate(150%);
+    border: 0.2rem solid rgba(255, 255, 255, 0.5);
+    border-radius: 0.6rem;
     box-shadow: 0 0 0.3rem rgba(0, 0, 0, 0.1);
-    border-radius: 0.5rem;
     list-style: none;
     padding: var(--space-1);
     width: 80vw;
     max-width: 28rem;
-    max-height: 180px;
+    max-height: 14rem;
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: var(--Main-intro-outline-color, whitesmoke) transparent;
-    z-index: 999;
+    transition: all 0.25s ease-in-out;
+    z-index: 3;
 }
 
 #suggestions {
@@ -364,10 +368,10 @@ body {
     position: absolute;
     background-color: rgb(255, 255, 255);
     height: 2.5rem;
-    width: 0.11rem;
+    width: 0.12rem;
     z-index: 2;
     right: 2.7%;
-    transition: all 0.25s ease;
+    transition: all 0.4s ease;
     border-radius: 0.5rem;
 }
 
@@ -375,19 +379,21 @@ body {
     font-size: var(--fs-xl);
 }
 
-:is(#suggestions, #suggestions-2) li:hover {
-    background-color: rgba(245, 245, 245, 0.869);
+:is(#suggestions, #suggestions-2) li:hover,
+:is(#suggestions, #suggestions-2) li:active {
+    background-color: rgba(245, 245, 245, 0.8);
     color: rgb(1, 12, 17);
 }
 
-:is(#suggestions, #suggestions-2) li:hover::before {
+:is(#suggestions, #suggestions-2) li:hover::before,
+:is(#suggestions, #suggestions-2) li:active::before {
     background-color: rgb(1, 12, 17);
-    width: 0.4rem;
+    width: 0.45rem;
     right: 3%;
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 #click-start-intro {
@@ -409,7 +415,7 @@ body {
     color: var(--Main-Text-Color, aliceblue);
     background: radial-gradient(circle at center, #042534, #031018);
     cursor: pointer;
-    z-index: 1;
+    z-index: 2;
     transition: all 0.2s ease;
     animation: shadow-intro 1.5s ease-in-out alternate infinite;
 }
@@ -432,6 +438,7 @@ body {
 }
 
 @keyframes shadow-intro {
+
     0%,
     100% {
         box-shadow:
@@ -448,14 +455,68 @@ body {
     }
 }
 
+.click-start-intro-clicked {
+    pointer-events: none !important;
+    cursor: not-allowed !important;
+    background: none !important;
+    background-color: lightgray !important;
+    color: rgb(57, 57, 57) !important;
+    box-shadow:
+        0 0 1.5rem 0 rgb(58, 58, 58) inset,
+        0 0 1.5rem rgb(69, 69, 69),
+        0 0 1.5rem rgba(54, 54, 54, 0.15) inset !important;
+    transform: scale(0.9) !important;
+    outline: 0.3rem solid rgb(62, 62, 62) !important;
+}
+
+.click-start-intro-background {
+    position: absolute;
+    top: 73.9%;
+    padding: 1rem 2rem;
+    width: 70vw;
+    max-width: 24rem;
+    min-height: 5.6rem;
+    border-radius: 1rem;
+    z-index: 1;
+    cursor: not-allowed;
+}
+
+
+
 #background-intro {
     position: absolute;
     width: 100%;
     height: 100%;
     cursor: pointer;
-    backdrop-filter: blur(1.2rem) saturate(150%);
-    -webkit-backdrop-filter: blur(1.2rem) saturate(150%);
 }
+
+.esc {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 3%;
+    right: 7%;
+    width: 4.5rem;
+    height: 4.5rem;
+    padding: 0.5rem;
+    border-radius: 50%;
+    z-index: 1;
+    backdrop-filter: blur(1rem) saturate(150%);
+    -webkit-backdrop-filter: blur(1rem) saturate(150%);
+    cursor: pointer;
+    transition: all 0.35s ease;
+}
+
+.esc:hover {
+    background-color: firebrick;
+}
+
+.esc:active {
+    background-color: rgb(132, 25, 25);
+    transform: scale(0.8);
+}
+
 
 /* ---------- Part Two ---------- */
 
@@ -732,6 +793,7 @@ body {
 }
 
 @keyframes reset-active {
+
     0%,
     100% {
         background: linear-gradient(145deg, #5c0d0d, #2c0202);
